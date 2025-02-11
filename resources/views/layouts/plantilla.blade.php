@@ -22,10 +22,10 @@
         <div class="d-flex">
             <nav class="navbar navbar-light bg-light flex-column p-3" style="width: 250px;">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('inicio') }}">Listar Tareas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('tarea.index') }}">Listar Tareas</a></li>
                     {{-- @if ($_SESSION['status'] == 'A') --}}
-                        <li class="nav-item"><a class="nav-link" href="{{ route('inicio') }}">Crear Tarea</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('inicio') }}">Administrar Usuarios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('tarea.index') }}">Crear Tarea</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('tarea.index') }}">Administrar Usuarios</a></li>
                     {{-- @endif --}}
                 </ul>
             </nav>

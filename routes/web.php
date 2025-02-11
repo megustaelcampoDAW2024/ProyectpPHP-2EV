@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\TareaController::class, 'mostrarTareas'])->name('mostrar.tarea');
-Route::get('/tareas', [App\Http\Controllers\TareaController::class, 'mostrarTareas'])->name('mostrar.tarea');
-
-Route::any('/inicio', [TareaController::class, 'inicio'])->name('inicio');
+Route::get('/', [App\Http\Controllers\TareaController::class, 'index'])->name('tarea.index');
+Route::get('/tareas', [App\Http\Controllers\TareaController::class, 'mostrarTareas'])->name('tarea.index');
 Auth::routes();
