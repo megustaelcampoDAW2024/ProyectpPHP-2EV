@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Cliente;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tarea extends Model
 {
+    use softDeletes;
     protected $table = 'tareas';
     protected $guarded = [];
 

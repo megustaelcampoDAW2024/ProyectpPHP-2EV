@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Tarea;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cliente extends Model
 {
+    use SoftDeletes;
     protected $table = 'clientes';
     protected $guarded = [];
 
@@ -22,8 +24,8 @@ class Cliente extends Model
         return $this->hasMany(Cuota::class, 'cliente_id', 'id');
     }
 
-    public function country(): BelongsTo
+    public function pais(): BelongsTo
     {
-        return $this->belongsTo(Country::class, 'country_id', 'id');
+        return $this->belongsTo(Pais::class, 'pais_id', 'id');
     }
 }

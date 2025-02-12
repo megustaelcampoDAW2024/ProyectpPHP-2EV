@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Country extends Model
+class Pais extends Model
 {
     protected $table = 'country';
     protected $guarded = [];
 
     public function clientes(): HasMany
     {
-        return $this->hasMany(Cliente::class, 'country_id', 'id');
+        return $this->hasMany(Cliente::class, 'pais_id', 'id');
     }
 }
