@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class TareaController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:admin')->only(['index', 'create', 'store']);
+        $this->middleware('role:operario')->only(['show', 'edit', 'update']);
+    }
+
     /**
      * Display a listing of the resource.
      */

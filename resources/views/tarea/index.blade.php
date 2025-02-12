@@ -70,4 +70,12 @@
     <div class="d-flex justify-content-center">
         {{ $tareas->links('pagination::bootstrap-4') }}
     </div>
+        <?php
+    @if(Auth::user()->role == 'admin')
+        <p>Contenido para administradores</p>
+    @elseif(Auth::user()->role == 'operario')
+        <p>Contenido para operarios</p>
+    @else
+        <p>Contenido para usuarios públicos</p>
+    @endif
 @endsection
