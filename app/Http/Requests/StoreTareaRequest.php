@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidPhoneNumber;
 
 class StoreTareaRequest extends FormRequest
 {
@@ -25,11 +26,15 @@ class StoreTareaRequest extends FormRequest
     {
         return [
             'cliente' => 'required|exists:clientes,id',
+            'nombre_contacto' => 'required|string|max:255',
+            'apellido_contacto' => 'required|string|max:255',
+            'correo_contacto' => 'required|email|max:255',
+            'telefono_contacto' => ['required', 'string', 'max:50', new ValidPhoneNumber],
             'descripcion' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'poblacion' => 'nullable|string|max:255',
             'codigo-post' => 'nullable|numeric',
-            'provincia' => 'nullable|exists:provincias,id',
+            'provincia' => 'nullable|exists:tbl_provincias,id',
             'operario' => 'nullable|exists:users,id',
             'fecha-realizacion' => 'nullable|date',
             'estado' => 'required|in:B,P,R,C',

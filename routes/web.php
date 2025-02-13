@@ -15,7 +15,7 @@ Route::get('/permiso', function () {
 // TareaController
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\TareaController::class, 'index'])->name('tarea.index');
-    Route::get('/tarea/mostrar', [App\Http\Controllers\TareaController::class, 'index'])->name('tarea.index');
+    Route::get('/tarea/index', [App\Http\Controllers\TareaController::class, 'index'])->name('tarea.index');
     Route::get('/tarea/create', [App\Http\Controllers\TareaController::class, 'create'])->name('tarea.create');
     Route::post('/tarea/store', [App\Http\Controllers\TareaController::class, 'store'])->name('tarea.store');
     Route::get('/tarea/edit/{id}', [App\Http\Controllers\TareaController::class, 'edit'])->name('tarea.edit');

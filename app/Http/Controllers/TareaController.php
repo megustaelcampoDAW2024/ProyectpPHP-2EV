@@ -17,8 +17,8 @@ class TareaController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('rol:A')->only('edit', 'update', 'store');
-        $this->middleware('rol:O')->only('edit', 'update', 'store');
+        $this->middleware('rol:A')->only('edit', 'update', 'create', 'store', 'destroy');
+        $this->middleware('rol:O')->only('edit', 'update');
     }
 
     /**
