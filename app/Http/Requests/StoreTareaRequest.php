@@ -24,8 +24,15 @@ class StoreTareaRequest extends FormRequest
      */
     public function rules()
     {
+        // ERRORES A CORREGIR
+        // Comprobar el cod_postal
+        // Deshabilitar el campo de fecha_realizacion si el estado no es R
+        // Marcar como default Pendiente
+        // Mantener los ficheros
+        // Guardar los ficheros correctamente
+        // Guardar los ficheros físicamente
         return [
-            'cliente' => 'required|exists:clientes,id',
+            'cliente_id' => 'required|exists:clientes,id',
             'nombre_contacto' => 'required|string|max:255',
             'apellido_contacto' => 'required|string|max:255',
             'correo_contacto' => 'required|email|max:255',
@@ -33,14 +40,14 @@ class StoreTareaRequest extends FormRequest
             'descripcion' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'poblacion' => 'nullable|string|max:255',
-            'codigo-post' => 'nullable|numeric',
-            'provincia' => 'nullable|exists:tbl_provincias,id',
-            'operario' => 'nullable|exists:users,id',
-            'fecha-realizacion' => 'nullable|date',
+            'cod_postal' => 'nullable|numeric',
+            'provincia_id' => 'nullable|exists:tbl_provincias,id',
+            'operario_id' => 'nullable|exists:users,id',
+            'fecha_realizacion' => 'nullable|date',
             'estado' => 'required|in:B,P,R,C',
-            'anotaciones-anteriores' => 'nullable|string',
-            'anotaciones-posteriores' => 'nullable|string',
-            'fich-resu' => 'nullable|file|mimes:pdf|max:2048',
+            'anotaciones_anteriores' => 'nullable|string',
+            'anotaciones_posteriores' => 'nullable|string',
+            'fichero' => 'nullable|file|mimes:pdf|max:2048',
             'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
         ];
     }

@@ -1,7 +1,7 @@
 @extends('layouts.plantilla')
 @section('titulo', 'Create Tareas')
 @section('seccion')
-<form action="{{ route("tarea.store") }}" method="post" enctype="multipart/form-data" class="container my-4">
+<form action="{{ route("tarea.store") }}" method="POST" enctype="multipart/form-data" class="container my-4">
     @csrf
     <fieldset class="border p-4">
         <legend class="w-auto"><b>Formulario {{ isset($task) ? 'Modificación' : 'Creación' }} de Tarea</b></legend>
@@ -12,12 +12,12 @@
                 @error('cliente')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
-                    <label for="cliente">Cliente</label>
+                    <label for="cliente_id">Cliente</label>
                 @enderror
-                <select class="form-control" name="cliente" id="cliente">
+                <select class="form-control" name="cliente_id" id="cliente_id">
                     <option value="0" hidden>Seleccione un Cliente</option>
                     @foreach($clientes as $cliente)
-                        <option value="{{ $cliente->id }}" {{ old('cliente') == $cliente->id ? 'selected' : '' }}>{{ $cliente->nombre }}</option>
+                        <option value="{{ $cliente->id }}" {{ old('cliente_id') == $cliente->id ? 'selected' : '' }}>{{ $cliente->nombre }}</option>
                     @endforeach
                 </select>
             </div>
@@ -86,50 +86,50 @@
             </div>
 
             <div class="form-group">
-                @error('codigo-post')
+                @error('cod_postal')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
-                    <label for="codigo-post">Código Postal de Realización</label>
+                    <label for="cod_postal">Código Postal de Realización</label>
                 @enderror
-                <input type="text" class="form-control" name="codigo-post" value="{{ old('codigo-post') }}">
+                <input type="text" class="form-control" name="cod_postal" value="{{ old('cod_postal') }}">
             </div>
 
             <div class="form-group">
-                @error('provincia')
+                @error('provincia_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
-                    <label for="provincia">Provincia de Realización</label>
+                    <label for="provincia_id">Provincia de Realización</label>
                 @enderror
-                <select class="form-control" name="provincia" id="provincia">
+                <select class="form-control" name="provincia_id" id="provincia_id">
                     <option value="0" hidden>Seleccione una Provincia</option>
                     @foreach($provincias as $provincia)
-                        <option value="{{ $provincia->id }}" {{ old('provincia') == $provincia->id ? 'selected' : '' }}>{{ $provincia->nombre }}</option>
+                        <option value="{{ $provincia->id }}" {{ old('provincia_id') == $provincia->id ? 'selected' : '' }}>{{ $provincia->nombre }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
-                @error('operario')
+                @error('operario_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
                     <label for="form-control">Operario Asignado</label>
                 @enderror
-                <select class="form-control" name="operario" id="operario">
+                <select class="form-control" name="operario_id" id="operario_id">
                     <option value="0" hidden>Seleccione un Operario</option>
                     @foreach($operarios as $operario)
-                        <option value="{{ $operario->id }}" {{ old('operario') == $operario->id ? 'selected' : '' }}>{{ $operario->name }}</option>
+                        <option value="{{ $operario->id }}" {{ old('operario_id') == $operario->id ? 'selected' : '' }}>{{ $operario->name }}</option>
                     @endforeach
                 </select>
             </div>
         @endif
             
         <div class="form-group">
-            @error('fecha-realizacion')
+            @error('fecha_realizacion')
                 <div class="alert alert-danger">{{ $message }}</div>
             @else
-                <label for="fecha-realizacion"></label>
+                <label for="fecha_realizacion">Fecha de Realización</label>
             @enderror
-            <input type="date" class="form-control" name="fecha-realizacion" id="fecha-realizacion" value="{{ old('fecha-realizacion') }}">
+            <input type="date" class="form-control" name="fecha_realizacion" id="fecha_realizacion" value="{{ old('fecha_realizacion') }}">
         </div>
 
         <div class="form-group">
@@ -139,44 +139,44 @@
                 <label for="estado">Estado de la Tarea</label>
             @enderror
             <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" id="estado" value="B" {{ old('estado') == 'B' ? 'checked' : '' }}>Esperando a Ser Aprobada
+                <input type="radio" class="form-check-input" name="estado" value="B" {{ old('estado') == 'B' ? 'checked' : '' }}>Esperando a Ser Aprobada
             </div>
             <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" id="estado" value="P" {{ old('estado') == 'P' ? 'checked' : '' }}>Pendiente
+                <input type="radio" class="form-check-input" name="estado" value="P" {{ old('estado') == 'P' ? 'checked' : '' }}>Pendiente
             </div>
             <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" id="estado" value="R" {{ old('estado') == 'R' ? 'checked' : '' }}>Realizada
+                <input type="radio" class="form-check-input" name="estado" value="R" {{ old('estado') == 'R' ? 'checked' : '' }}>Realizada
             </div>
             <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" id="estado" value="C" {{ old('estado') == 'C' ? 'checked' : '' }}>Cancelada
+                <input type="radio" class="form-check-input" name="estado" value="C" {{ old('estado') == 'C' ? 'checked' : '' }}>Cancelada
             </div>
         </div>
 
         <div class="form-group">
-            @error('anotaciones-anteriores')
+            @error('anotaciones_anteriores')
                 <div class="alert alert-danger">{{ $message }}</div>
             @else
-                <label for="anotaciones-anteriores">Anotaciones Anteriores a la Tarea</label>
+                <label for="anotaciones_anteriores">Anotaciones Anteriores a la Tarea</label>
             @enderror
-            <textarea class="form-control" name="anotaciones-anteriores" id="anotaciones-anteriores">{{ old('anotaciones-anteriores') }}</textarea>
+            <textarea class="form-control" name="anotaciones_anteriores" id="anotaciones_anteriores">{{ old('anotaciones_anteriores') }}</textarea>
         </div>
 
         <div class="form-group">
-            @error('anotaciones-posteriores')
+            @error('anotaciones_posteriores')
                 <div class="alert alert-danger">{{ $message }}</div>
             @else
-                <label for="anotaciones-posteriores">Anotaciones Posteriores a la Tarea</label>
+                <label for="anotaciones_posteriores">Anotaciones Posteriores a la Tarea</label>
             @enderror
-            <textarea class="form-control" name="anotaciones-posteriores" id="anotaciones-posteriores">{{ old('anotaciones-posteriores') }}</textarea>
+            <textarea class="form-control" name="anotaciones_posteriores" id="anotaciones_posteriores">{{ old('anotaciones_posteriores') }}</textarea>
         </div>
 
         <div class="form-group">
-            @error('fich-resu')
+            @error('fichero')
                 <div class="alert alert-danger">{{ $message }}</div>
             @else
-                <label for="fich-resu">Fichero Resumen de las Tareas Realizadas</label>
+                <label for="fichero">Fichero Resumen de las Tareas Realizadas</label>
             @enderror
-            <input type="file" class="form-control-file" name="fich-resu" id="fich-resu" accept=".pdf">
+            <input type="file" class="form-control-file" name="fichero" id="fichero" accept=".pdf" value="{{ old('fichero') }}">
         </div>
 
         <div class="form-group">
@@ -185,7 +185,7 @@
             @else
                 <label for="foto">Foto de las Tareas Realizadas</label>
             @enderror
-            <input type="file" class="form-control-file" name="foto" id="foto" accept=".jpg, .jpeg, .png">
+            <input type="file" class="form-control-file" name="foto" id="foto" accept=".jpg, .jpeg, .png" value="{{ old('foto') }}">
         </div>
         <button type="submit" class="btn btn-primary">Actualizar o Enviar</button>
     </fieldset>
