@@ -8,7 +8,7 @@
     </head>
     <body>
         <header class="bg-light p-3">
-            {{-- <p class="text-right">Usuario: {{$_SESSION['usuario']}} | @if($_SESSION['status'] == 'A') Administrador @else Operario @endif | <a href="{{miUrl('logOut')}}" class="btn btn-danger btn-sm">Log Out</a></p> --}}
+            <p class="text-right">Usuario: {{ Auth::user()->name }} | @if(Auth::user()->rol == 'A') Administrador @elseif(Auth::user()->rol == 'O') Operario @endif</p>
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="text-center w-100">@yield('titulo')</h1>
                 <div>
@@ -24,7 +24,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{{ route('tarea.index') }}">Listar Tareas</a></li>
                     {{-- @if ($_SESSION['status'] == 'A') --}}
-                        <li class="nav-item"><a class="nav-link" href="{{ route('tarea.index') }}">Crear Tarea</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('tarea.create') }}">Crear Tarea</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('tarea.index') }}">Administrar Usuarios</a></li>
                     {{-- @endif --}}
                 </ul>

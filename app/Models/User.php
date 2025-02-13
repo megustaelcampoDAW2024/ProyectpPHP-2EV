@@ -50,4 +50,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tarea::class, 'user_id', 'id');
     }
+
+    //get Users
+
+    public static function getOperarios()
+    {
+        return User::where('rol', 'O')->get();
+    }
 }

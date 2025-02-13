@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTareaRequest;
+use App\Models\Cliente;
+use App\Models\Provincia;
 use App\Models\Tarea;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -10,8 +15,10 @@ class TareaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:admin')->only(['index', 'create', 'store']);
-        $this->middleware('role:operario')->only(['show', 'edit', 'update']);
+        $this->middleware('auth');
+
+        $this->middleware('rol:A')->only('edit', 'update', 'store');
+        $this->middleware('rol:O')->only('edit', 'update', 'store');
     }
 
     /**
@@ -19,7 +26,12 @@ class TareaController extends Controller
      */
     public function index()
     {
-        $tareas = Tarea::paginate(10);
+        $user = Auth::user();
+        if($user->rol === 'A') {
+            $tareas = Tarea::getAllTareas();
+        } else {
+            $tareas = Tarea::getTareasByOperario($user->id);
+        }
         return view('tarea.index', 
             ['tareas' => $tareas]
         );
@@ -30,15 +42,24 @@ class TareaController extends Controller
      */
     public function create()
     {
-        //
+        $operarios = User::getOperarios();
+        $clientes = Cliente::all();
+        $provincias = Provincia::all();
+        return view('tarea.create', [
+            'operarios' => $operarios,
+            'clientes' => $clientes,
+            'provincias' => $provincias
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTareaRequest $request)
     {
-        //
+        $tarea = new Tarea($request->validated());
+        $tarea->save();
+        return to_route('tarea.index');
     }
 
     /**

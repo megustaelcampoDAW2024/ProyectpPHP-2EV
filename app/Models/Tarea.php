@@ -16,7 +16,7 @@ class Tarea extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'operario_id', 'id');
     }
 
     public function cliente(): BelongsTo
@@ -27,5 +27,18 @@ class Tarea extends Model
     public function provincia(): BelongsTo
     {
         return $this->belongsTo(Provincia::class, 'provincia_id', 'id');
+    }
+
+    // Métodos get Datos
+
+    public static function getAllTareas()
+    {
+        return Tarea::paginate(10);
+    }
+
+    public static function getTareasByOperario($user_id)
+    {
+        return Tarea::where('operario_id', $user_id)
+            ->paginate(10);
     }
 }

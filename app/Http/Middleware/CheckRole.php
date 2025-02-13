@@ -15,15 +15,11 @@ class CheckRole
      * @param  string  $role
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $rol)
     {
-        if (!Auth::check()) {
-            return redirect('login');
-        }
-
         $user = Auth::user();
-        if ($user->role !== $role) {
-            return redirect('home');
+        if ($user->rol != $rol) {
+            return to_route('no.permisos');
         }
 
         return $next($request);
