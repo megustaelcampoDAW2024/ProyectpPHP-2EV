@@ -111,6 +111,7 @@ class TareaController extends Controller
      */
     public function destroy(Tarea $tarea)
     {
-        //
+        $tarea->delete();
+        return to_route('tarea.index');
     }
 }

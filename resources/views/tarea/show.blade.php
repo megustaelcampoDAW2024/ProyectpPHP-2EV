@@ -3,9 +3,9 @@
 <h3>Detalles de la Tarea</h3>
 <table class="table table-bordered">
     <tr>
-        <td>
+        <td @if(Auth::user()->rol == 'O') colspan="2" @endif>
             @if(Auth::user()->rol == 'A')
-            <a href="{{ route('tarea.edit', ['tarea' => $tarea]) }}" class="btn btn-warning">
+            <a href="{{ route('tarea.edit', ['tarea' => $tarea]) }}" class="btn btn-warning w-100">
                 Modificar 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -13,7 +13,7 @@
                 </svg>    
             </a>
             @elseif(Auth::user()->rol == 'O')
-            <a href="{{ /*route('tarea.complete', ['tarea' => $tarea])*/ }}" class="btn btn-success">
+            <a href="{{ /*route('tarea.complete', ['tarea' => $tarea])*/ }}" class="btn btn-success w-100">
                 Completar 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
@@ -25,13 +25,13 @@
         </td>
         <td>
             @if(Auth::user()->rol == 'A')
-                <a href="{{ route('tarea.destroy', ['tarea' => $tarea]) }}" class="btn btn-danger">
+                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#confirmDeleteModal-{{ $tarea->id }}">
                     Eliminar 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
                         <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
                     </svg>    
-                </a>
+                </button>
             @endif
         </td>
     </tr>
@@ -143,4 +143,25 @@
         </td>
     </tr>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal-{{ $tarea->id }}" tabindex="-1" aria-labelledby="confirmDeleteModalLabel-{{ $tarea->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel-{{ $tarea->id }}">Confirmar Eliminación</h5>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar esta tarea?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <form action="{{ route('tarea.destroy', ['tarea' => $tarea]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>            </div>
+        </div>
+    </div>
+</div>
 @endsection
