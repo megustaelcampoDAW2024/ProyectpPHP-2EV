@@ -112,7 +112,9 @@
     </tr>    
     <tr>
         <td>Fecha Realización</td>
-        <td>{{ \Carbon\Carbon::parse($tarea['fecha_realizacion'])->format('d-m-Y') }}</td>
+        @if ($tarea['fecha_realizacion'])
+            <td>{{ \Carbon\Carbon::parse($tarea->fecha_realizacion)->format('d-m-Y') }}</td>
+        @endif
     </tr>    
     <tr>
         <td>Anotaciones Anteriores</td>

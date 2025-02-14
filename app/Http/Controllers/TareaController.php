@@ -17,8 +17,8 @@ class TareaController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('rol:A')->only('edit', 'update', 'create', 'store', 'destroy');
-        $this->middleware('rol:O')->only('edit', 'update');
+        $this->middleware('rol:A')->only('edit', 'update', 'create', 'store', 'destroy', 'edit', 'update');
+        // $this->middleware('rol:O')->only();
     }
 
     /**
@@ -95,15 +95,50 @@ class TareaController extends Controller
      */
     public function edit(Tarea $tarea)
     {
-        //
+        $operarios = User::getOperarios();
+        $clientes = Cliente::all();
+        $provincias = Provincia::all();
+        return view('tarea.edit', [
+            'tarea' => $tarea,
+            'operarios' => $operarios,
+            'clientes' => $clientes,
+            'provincias' => $provincias
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tarea $tarea)
+    public function update(StoreTareaRequest $request, Tarea $tarea)
     {
-        //
+        $tareaValidada = $request->validated();
+
+        // Verificar si la fecha de realización está vacía y establecerla a NULL
+        if (empty($tareaValidada['fecha_realizacion'])) {
+            $tareaValidada['fecha_realizacion'] = null;
+        }
+
+        // Eliminar fichero anterior si existe y se ha subido uno nuevo
+        if ($request->hasFile('fichero')) {
+            if ($tarea->fichero) {
+                unlink(storage_path('app/public/' . $tarea->fichero));
+            }
+            $ficheroPath = $request->file('fichero')->store("ficheros/tarea_{$tarea->id}", 'public');
+            $tareaValidada['fichero'] = $ficheroPath;
+        }
+
+        // Eliminar foto anterior si existe y se ha subido una nueva
+        if ($request->hasFile('foto')) {
+            if ($tarea->foto) {
+                unlink(storage_path('app/public/' . $tarea->foto));
+            }
+            $fotoPath = $request->file('foto')->store("fotos/tarea_{$tarea->id}", 'public');
+            $tareaValidada['foto'] = $fotoPath;
+        }
+
+        $tarea->update($tareaValidada);
+        
+        return to_route('tarea.show', ['tarea' => $tarea]);
     }
 
     /**

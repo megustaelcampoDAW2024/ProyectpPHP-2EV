@@ -27,8 +27,7 @@ class StoreTareaRequest extends FormRequest
     public function rules()
     {
         // Mantener los ficheros al fallar la validación
-        // Guardar los ficheros correctamente
-        // Guardar los ficheros físicamente
+        // Arreglar segunda validación de fecha
         return [
             'cliente_id' => 'not_in:0|required|exists:clientes,id',
             'nombre_contacto' => 'required|string|max:255',
