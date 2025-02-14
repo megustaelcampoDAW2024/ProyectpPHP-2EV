@@ -1,5 +1,4 @@
 @extends('layouts.plantilla')
-@section('titulo', 'Tareas')
 @section('seccion')
 <table class="table table-bordered">
     <thead class="thead-dark">
@@ -27,10 +26,20 @@
                 <td>{{ $tarea['nombre_contacto'] }}</td>
                 <td>{{ $tarea['apellido_contacto'] }}</td>
                 <td>{{ $tarea['descripcion'] }}</td>
-                <td>{{ $tarea['estado'] }}</td>
+                <td>
+                    @if ($tarea['estado'] == 'B')
+                        <span class="badge bg-secondary text-white w-100" style="padding: 13px 0px">Por Aprobar</span>
+                    @elseif ($tarea['estado'] == 'P')
+                        <span class="badge bg-primary text-white w-100" style="padding: 13px 0px">Pendiente</span>
+                    @elseif ($tarea['estado'] == 'R')
+                        <span class="badge bg-success text-white w-100" style="padding: 13px 0px">Realizada</span>
+                    @elseif ($tarea['estado'] == 'C')
+                        <span class="badge bg-danger text-white w-100" style="padding: 13px 0px">Cancelada</span>
+                    @endif
+                </td>
                 <td>{{ $tarea['created_at']->format('d-m-Y') }}</td>
-                <td>{{ $tarea['fecha_realizacion'] }}</td>
-                <td><a href="{{ route("tarea.index") }}" class="btn btn-primary w-100">
+                <td>{{ \Carbon\Carbon::parse($tarea['fecha_realizacion'])->format('d-m-Y') }}</td>
+                <td><a href="{{ route("tarea.show", ['tarea' => $tarea]) }}" class="btn btn-primary w-100">
                     Detalles 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM8 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z"/>

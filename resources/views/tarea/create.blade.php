@@ -1,5 +1,4 @@
 @extends('layouts.plantilla')
-@section('titulo', 'Create Tareas')
 @section('seccion')
 <form action="{{ route("tarea.store") }}" method="POST" enctype="multipart/form-data" class="container my-4">
     @csrf
@@ -9,7 +8,7 @@
         @if(Auth::user()->rol == 'A')
 
             <div class="form-group">
-                @error('cliente')
+                @error('cliente_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
                     <label for="cliente_id">Cliente</label>
@@ -71,7 +70,7 @@
                 @error('direccion')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
-                    <label for="direccion">Dirección de Realización</label>
+                    <label for="direccion">Dirección</label>
                 @enderror
                 <input type="text" class="form-control" name="direccion" value="{{ old('direccion') }}">
             </div>
@@ -80,7 +79,7 @@
                 @error('poblacion')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
-                    <label for="poblacion">Población de Realización</label>
+                    <label for="poblacion">Población</label>
                 @enderror
                 <input type="text" class="form-control" name="poblacion" value="{{ old('poblacion') }}">
             </div>
@@ -89,7 +88,7 @@
                 @error('cod_postal')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
-                    <label for="cod_postal">Código Postal de Realización</label>
+                    <label for="cod_postal">Código Postal</label>
                 @enderror
                 <input type="text" class="form-control" name="cod_postal" value="{{ old('cod_postal') }}">
             </div>
@@ -98,7 +97,7 @@
                 @error('provincia_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @else
-                    <label for="provincia_id">Provincia de Realización</label>
+                    <label for="provincia_id">Provincia</label>
                 @enderror
                 <select class="form-control" name="provincia_id" id="provincia_id">
                     <option value="0" hidden>Seleccione una Provincia</option>
@@ -127,7 +126,7 @@
             @error('fecha_realizacion')
                 <div class="alert alert-danger">{{ $message }}</div>
             @else
-                <label for="fecha_realizacion">Fecha de Realización</label>
+                <label for="fecha_realizacion">Fecha</label>
             @enderror
             <input type="date" class="form-control" name="fecha_realizacion" id="fecha_realizacion" value="{{ old('fecha_realizacion') }}">
         </div>
@@ -187,7 +186,7 @@
             @enderror
             <input type="file" class="form-control-file" name="foto" id="foto" accept=".jpg, .jpeg, .png" value="{{ old('foto') }}">
         </div>
-        <button type="submit" class="btn btn-primary">Actualizar o Enviar</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
     </fieldset>
 </form>
 @endsection

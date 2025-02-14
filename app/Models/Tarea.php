@@ -14,7 +14,7 @@ class Tarea extends Model
     protected $table = 'tareas';
     protected $guarded = [];
 
-    public function user(): BelongsTo
+    public function operario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'operario_id', 'id');
     }

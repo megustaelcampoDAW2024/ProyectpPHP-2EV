@@ -7,7 +7,7 @@
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Listar Tareas</a></li>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container-fluid mt-4">
+        <div class="container-fluid mt-5 pt-4">
             @yield('seccion')
         </div>
         <footer class="bg-light text-center p-3">

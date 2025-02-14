@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidPhoneNumber;
+use App\Rules\validCodigoPostal;
+use App\Rules\ValidFechaRealizacion;
 
 class StoreTareaRequest extends FormRequest
 {
@@ -24,15 +26,11 @@ class StoreTareaRequest extends FormRequest
      */
     public function rules()
     {
-        // ERRORES A CORREGIR
-        // Comprobar el cod_postal
-        // Deshabilitar el campo de fecha_realizacion si el estado no es R
-        // Marcar como default Pendiente
-        // Mantener los ficheros
+        // Mantener los ficheros al fallar la validación
         // Guardar los ficheros correctamente
         // Guardar los ficheros físicamente
         return [
-            'cliente_id' => 'required|exists:clientes,id',
+            'cliente_id' => 'not_in:0|required|exists:clientes,id',
             'nombre_contacto' => 'required|string|max:255',
             'apellido_contacto' => 'required|string|max:255',
             'correo_contacto' => 'required|email|max:255',
@@ -40,10 +38,10 @@ class StoreTareaRequest extends FormRequest
             'descripcion' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'poblacion' => 'nullable|string|max:255',
-            'cod_postal' => 'nullable|numeric',
+            'cod_postal' => ['nullable', 'numeric', 'digits:5', new validCodigoPostal($this->provincia_id)],
             'provincia_id' => 'nullable|exists:tbl_provincias,id',
             'operario_id' => 'nullable|exists:users,id',
-            'fecha_realizacion' => 'nullable|date',
+            'fecha_realizacion' => ['nullable', 'date', new ValidFechaRealizacion($this->estado)],
             'estado' => 'required|in:B,P,R,C',
             'anotaciones_anteriores' => 'nullable|string',
             'anotaciones_posteriores' => 'nullable|string',

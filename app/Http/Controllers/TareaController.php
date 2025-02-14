@@ -57,8 +57,26 @@ class TareaController extends Controller
      */
     public function store(StoreTareaRequest $request)
     {
+        // Guarda la tarea primero para obtener su ID
         $tarea = new Tarea($request->validated());
         $tarea->save();
+    
+        // Usa el ID de la tarea para crear carpetas únicas
+        $tareaId = $tarea->id;
+    
+        if ($request->hasFile('fichero')) {
+            $ficheroPath = $request->file('fichero')->store("ficheros/tarea_$tareaId", 'public');
+            $tarea->fichero = $ficheroPath;
+        }
+    
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store("fotos/tarea_$tareaId", 'public');
+            $tarea->foto = $fotoPath;
+        }
+    
+        // Guarda la tarea nuevamente con las rutas de los archivos
+        $tarea->save();
+    
         return to_route('tarea.index');
     }
 
@@ -67,7 +85,9 @@ class TareaController extends Controller
      */
     public function show(Tarea $tarea)
     {
-        //
+        return view('tarea.show', [
+            'tarea' => $tarea
+        ]);
     }
 
     /**
