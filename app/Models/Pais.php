@@ -14,4 +14,9 @@ class Pais extends Model
     {
         return $this->hasMany(Cliente::class, 'pais_id', 'id');
     }
+
+    public static function getPaises()
+    {
+        return Pais::all();
+    }
 }

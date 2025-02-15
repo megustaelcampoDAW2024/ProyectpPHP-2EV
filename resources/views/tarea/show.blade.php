@@ -39,10 +39,27 @@
         <td>{{ $tarea->id }}</td>
     </tr>    
     <tr>
-        <td>Cliente Id</td>
+        <td>Cliente</td>
         <td>
-        {{ $tarea->cliente->id }}   
+            @if (Auth::user()->rol == 'A')
+            <a href="#" data-toggle="modal" data-target="#detallesCliente{{ $tarea->cliente->id }}">
+                {{ $tarea->cliente->nombre }}
+            </a>
+            @else
+            {{ $tarea->cliente->nombre }}
+            @endif
         </td>
+    </tr>
+    <tr>
+        <td>Operario</td>
+        <td>
+            @if($tarea->operario_id && $tarea->operario)
+            <a href="#" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
+                {{ $tarea->operario->name }}
+            </a>
+            @endif
+        </td>
+    </tr>
     <tr>
         <td>Nombre de Contacto</td>
         <td>{{ $tarea->nombre_contacto }}</td>
@@ -80,16 +97,6 @@
         <td>
             @if($tarea->provincia_id)
             {{ $tarea->provincia->nombre }}
-            @endif
-        </td>
-    </tr>   
-    <tr>
-        <td>Operario</td>
-        <td>
-            @if($tarea->operario_id && $tarea->operario)
-            <a href="#" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
-                {{ $tarea->operario->name }}
-            </a>
             @endif
         </td>
     </tr>    
@@ -168,11 +175,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="detallesCliente{{ $tarea->cliente->id }}" tabindex="-1" aria-labelledby="detallesClienteLabel{{ $tarea->cliente->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detallesClienteLabel{{ $tarea->cliente->id }}">Información del Cliente</h5>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID: </strong>{{$tarea->cliente->id}}</p>
+                <p><strong>Nombre: </strong>{{$tarea->cliente->nombre}}</p>
+                <p><strong>CIF: </strong>{{$tarea->cliente->cif}}</p>
+                <p><strong>Teléfono: </strong>{{$tarea->cliente->telefono}}</p>
+                <p><strong>Correo: </strong>{{$tarea->cliente->correo}}</p>
+                <p><strong>Cuenta Corriente: </strong>{{$tarea->cliente->cuenta_corriente}}</p>
+                <p><strong>Moneda: </strong>{{$tarea->cliente->moneda}}</p>
+                <p><strong>Importe Mensual: </strong>{{$tarea->cliente->importe_mensual}}</p>
+                <p><strong>País: </strong>{{$tarea->cliente->pais->nombre}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="detallesOperario{{ $tarea->operario->id }}" tabindex="-1" aria-labelledby="detallesOperarioLabel{{ $tarea->operario->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detallesOperarioLabel{{ $tarea->operario->id }}">Información del País</h5>
+                <h5 class="modal-title" id="detallesOperarioLabel{{ $tarea->operario->id }}">Información del Operario Encargado</h5>
             </div>
             <div class="modal-body">
                 <p><strong>ID: </strong>{{$tarea->operario->id}}</p>

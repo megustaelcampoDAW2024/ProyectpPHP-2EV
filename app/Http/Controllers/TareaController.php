@@ -16,7 +16,7 @@ class TareaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('rol:A')->only('edit', 'update', 'create', 'store', 'destroy', 'edit', 'update');
+        $this->middleware('rol:A')->only('create', 'store', 'edit', 'update', 'destroy');
         $this->middleware('rol:O')->only('complete', 'completeUpdate');
     }
 

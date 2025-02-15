@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClienteRequest;
 use App\Models\Cliente;
+use App\Models\Pais;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -10,7 +12,7 @@ class ClienteController extends Controller
 
     public function __cosntruct()
     {
-        $this->middleware('rol:A')->only('edit', 'update', 'create', 'store', 'destroy', 'edit', 'update');
+        $this->middleware('rol:A')->only('index', 'create', 'store', 'show', 'edit', 'update', 'destroy');
     }
 
     /**
@@ -29,15 +31,21 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        $paises = Pais::getPaises();
+        return view('cliente.create', [
+            'paises' => $paises
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreClienteRequest $request)
     {
-        //
+        $cliente = new Cliente($request->validated());
+        $cliente->save();
+        return to_route('cliente.show', ['cliente' => $cliente->id]);
+        //hola
     }
 
     /**
@@ -45,7 +53,7 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        //
+        return view('cliente.show', ['cliente' => $cliente]);
     }
 
     /**
@@ -53,15 +61,21 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
-        //
+        $paises = Pais::getPaises();
+        return view('cliente.edit', [
+            'cliente' => $cliente,
+            'paises' => $paises
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(StoreClienteRequest $request, Cliente $cliente)
     {
-        //
+        $cliente->fill($request->validated());
+        $cliente->save();
+        return to_route('cliente.show', ['cliente' => $cliente->id]);
     }
 
     /**
@@ -69,6 +83,7 @@ class ClienteController extends Controller
      */
     public function destroy(Cliente $cliente)
     {
-        //
+        $cliente->delete();
+        return to_route('cliente.index');
     }
 }
