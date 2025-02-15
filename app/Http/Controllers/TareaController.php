@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTareaRequest;
+use App\Http\Requests\UpdateCompleteRequest;
 use App\Models\Cliente;
 use App\Models\Provincia;
 use App\Models\Tarea;
@@ -15,10 +16,8 @@ class TareaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
-
         $this->middleware('rol:A')->only('edit', 'update', 'create', 'store', 'destroy', 'edit', 'update');
-        // $this->middleware('rol:O')->only();
+        $this->middleware('rol:O')->only('complete', 'completeUpdate');
     }
 
     /**
@@ -113,11 +112,6 @@ class TareaController extends Controller
     {
         $tareaValidada = $request->validated();
 
-        // Verificar si la fecha de realización está vacía y establecerla a NULL
-        if (empty($tareaValidada['fecha_realizacion'])) {
-            $tareaValidada['fecha_realizacion'] = null;
-        }
-
         // Eliminar fichero anterior si existe y se ha subido uno nuevo
         if ($request->hasFile('fichero')) {
             if ($tarea->fichero) {
@@ -139,6 +133,46 @@ class TareaController extends Controller
         $tarea->update($tareaValidada);
         
         return to_route('tarea.show', ['tarea' => $tarea]);
+    }
+
+    public function complete(Tarea $tarea)
+    {
+        $operarios = User::getOperarios();
+        $clientes = Cliente::all();
+        $provincias = Provincia::all();
+        return view('tarea.edit', [
+            'tarea' => $tarea,
+            'operarios' => $operarios,
+            'clientes' => $clientes,
+            'provincias' => $provincias
+        ]);
+    }
+
+    public function completeUpdate(UpdateCompleteRequest $request, Tarea $tarea)
+    {
+        $tareaValidada = $request->validated();
+
+        // Eliminar fichero anterior si existe y se ha subido uno nuevo
+        if ($request->hasFile('fichero')) {
+            if ($tarea->fichero) {
+                unlink(storage_path('app/public/' . $tarea->fichero));
+            }
+            $ficheroPath = $request->file('fichero')->store("ficheros/tarea_{$tarea->id}", 'public');
+            $tareaValidada['fichero'] = $ficheroPath;
+        }
+
+        // Eliminar foto anterior si existe y se ha subido una nueva
+        if ($request->hasFile('foto')) {
+            if ($tarea->foto) {
+                unlink(storage_path('app/public/' . $tarea->foto));
+            }
+            $fotoPath = $request->file('foto')->store("fotos/tarea_{$tarea->id}", 'public');
+            $tareaValidada['foto'] = $fotoPath;
+        }
+
+        $tarea->update($tareaValidada);
+        
+        return to_route('tarea.index');
     }
 
     /**

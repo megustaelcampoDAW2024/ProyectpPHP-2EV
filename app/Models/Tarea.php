@@ -39,7 +39,7 @@ class Tarea extends Model
     public static function getTareasByOperario($user_id)
     {
         return Tarea::where('operario_id', $user_id)
-            ->where('estado', '!=', 'R')
+            ->where('estado', '=', 'P')
             ->paginate(10);
     }
 }

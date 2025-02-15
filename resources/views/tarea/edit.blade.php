@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 @section('seccion')
-<form action="{{ route("tarea.update", $tarea->id) }}" method="POST" enctype="multipart/form-data" class="container my-4">
+<form action="@if (Auth::user()->rol == 'A'){{ route("tarea.update", $tarea->id) }} @else {{ route("tarea.completeUpdate", $tarea->id) }} @endif" method="POST" enctype="multipart/form-data" class="container my-4">
     @csrf
     @method('PUT')
     <fieldset class="border p-4">
@@ -120,6 +120,40 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="form-group">
+                @error('estado')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @else
+                    <label for="estado">Estado de la Tarea</label>
+                @enderror
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="estado" value="B" {{ old('estado', $tarea->estado) == 'B' ? 'checked' : '' }}>Esperando a Ser Aprobada
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="estado" value="P" {{ old('estado', $tarea->estado) == 'P' ? 'checked' : '' }}>Pendiente
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="estado" value="R" {{ old('estado', $tarea->estado) == 'R' ? 'checked' : '' }}>Realizada
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="estado" value="C" {{ old('estado', $tarea->estado) == 'C' ? 'checked' : '' }}>Cancelada
+                </div>
+            </div>
+
+        @else
+
+        <div class="form-group" hidden>
+            @error('estado')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @else
+                <label for="estado">Estado de la Tarea</label>
+            @enderror
+            <div class="form-check">
+                <input type="radio" class="form-check-input" name="estado" value="R" checked>Realizada
+            </div>
+        </div>
+
         @endif
             
         <div class="form-group">
@@ -129,26 +163,6 @@
                 <label for="fecha_realizacion">Fecha de Realización</label>
             @enderror
             <input type="date" class="form-control" name="fecha_realizacion" id="fecha_realizacion" value="{{ old('fecha_realizacion', $tarea->fecha_realizacion ? \Carbon\Carbon::parse($tarea->fecha_realizacion)->format('Y-m-d') : '') }}">
-        </div>
-
-        <div class="form-group">
-            @error('estado')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @else
-                <label for="estado">Estado de la Tarea</label>
-            @enderror
-            <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" value="B" {{ old('estado', $tarea->estado) == 'B' ? 'checked' : '' }}>Esperando a Ser Aprobada
-            </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" value="P" {{ old('estado', $tarea->estado) == 'P' ? 'checked' : '' }}>Pendiente
-            </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" value="R" {{ old('estado', $tarea->estado) == 'R' ? 'checked' : '' }}>Realizada
-            </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input" name="estado" value="C" {{ old('estado', $tarea->estado) == 'C' ? 'checked' : '' }}>Cancelada
-            </div>
         </div>
 
         <div class="form-group">

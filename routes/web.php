@@ -14,12 +14,14 @@ Route::get('/permiso', function () {
 
 // TareaController
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', [App\Http\Controllers\TareaController::class, 'index'])->name('tarea.index');
-    Route::get('/tarea/index', [App\Http\Controllers\TareaController::class, 'index'])->name('tarea.index');
-    Route::get('/tarea/create', [App\Http\Controllers\TareaController::class, 'create'])->name('tarea.create');
-    Route::post('/tarea/store', [App\Http\Controllers\TareaController::class, 'store'])->name('tarea.store');
-    Route::get('/tarea/show/{tarea}', [App\Http\Controllers\TareaController::class, 'show'])->name('tarea.show');
-    Route::get('/tarea/edit/{tarea}', [App\Http\Controllers\TareaController::class, 'edit'])->name('tarea.edit');
-    Route::put('/tarea/update/{tarea}', [App\Http\Controllers\TareaController::class, 'update'])->name('tarea.update');
-    Route::delete('/tarea/destroy/{tarea}', [App\Http\Controllers\TareaController::class, 'destroy'])->name('tarea.destroy');
+    Route::get('/', [TareaController::class, 'index'])->name('tarea.index');
+    Route::get('/tarea/index', [TareaController::class, 'index'])->name('tarea.index');
+    Route::get('/tarea/create', [TareaController::class, 'create'])->name('tarea.create');
+    Route::post('/tarea/store', [TareaController::class, 'store'])->name('tarea.store');
+    Route::get('/tarea/show/{tarea}', [TareaController::class, 'show'])->name('tarea.show');
+    Route::get('/tarea/edit/{tarea}', [TareaController::class, 'edit'])->name('tarea.edit');
+    Route::put('/tarea/update/{tarea}', [TareaController::class, 'update'])->name('tarea.update');
+    Route::get('/tarea/complete/{tarea}', [TareaController::class, 'complete'])->name('tarea.complete');
+    Route::put('/tarea/completeUpdate/{tarea}', [TareaController::class, 'completeUpdate'])->name('tarea.completeUpdate');
+    Route::delete('/tarea/destroy/{tarea}', [TareaController::class, 'destroy'])->name('tarea.destroy');
 });

@@ -15,10 +15,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Listar Tareas</a></li>
-                    {{-- @if ($_SESSION['status'] == 'A') --}}
+                    @if (Auth::user()->rol == 'A')
                         <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.create') }}">Crear Tarea</a></li>
                         <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Administrar Usuarios</a></li>
-                    {{-- @endif --}}
+                    @endif
                 </ul>
                 <div class="d-flex align-items-center">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

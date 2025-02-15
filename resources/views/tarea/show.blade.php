@@ -1,6 +1,5 @@
 @extends('layouts.plantilla')
 @section('seccion')
-<h3>Detalles de la Tarea</h3>
 <table class="table table-bordered">
     <tr>
         <td @if(Auth::user()->rol == 'O') colspan="2" @endif>
@@ -13,7 +12,7 @@
                 </svg>    
             </a>
             @elseif(Auth::user()->rol == 'O')
-            <a href="{{ /*route('tarea.complete', ['tarea' => $tarea])*/ }}" class="btn btn-success w-100">
+            <a href="{{ route('tarea.complete', ['tarea' => $tarea]) }}" class="btn btn-success w-100">
                 Completar 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
@@ -23,17 +22,17 @@
             </a>
             @endif
         </td>
+        @if(Auth::user()->rol == 'A')
         <td>
-            @if(Auth::user()->rol == 'A')
-                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#confirmDeleteModal-{{ $tarea->id }}">
-                    Eliminar 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
-                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                    </svg>    
-                </button>
-            @endif
+            <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#confirmDeleteModal-{{ $tarea->id }}">
+                Eliminar 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                </svg>    
+            </button>
         </td>
+        @endif
     </tr>
     <tr>
         <td>Id tarea</td>
@@ -45,24 +44,24 @@
         {{ $tarea->cliente->id }}   
         </td>
     <tr>
-        <td>Nombre</td>
+        <td>Nombre de Contacto</td>
         <td>{{ $tarea->nombre_contacto }}</td>
     </tr>    
     <tr>
-        <td>Apellidos</td>
+        <td>Apellidos de Contacto</td>
         <td>{{ $tarea->apellido_contacto }}</td>
     </tr>    
     <tr>
-        <td>Teléfono</td>
+        <td>Teléfono de Contacto</td>
         <td>{{ $tarea->telefono_contacto }}</td>
+    </tr>    
+    <tr>
+        <td>Email de Contacto</td>
+        <td>{{ $tarea->correo_contacto }}</td>
     </tr>    
     <tr>
         <td>Descripción</td>
         <td>{{ $tarea->descripcion }}</td>
-    </tr>    
-    <tr>
-        <td>Email</td>
-        <td>{{ $tarea->correo_contacto }}</td>
     </tr>    
     <tr>
         <td>Dirección</td>
@@ -85,6 +84,18 @@
         </td>
     </tr>   
     <tr>
+        <td>Operario</td>
+        <td>
+            @if($tarea->operario_id && $tarea->operario)
+            {{ $tarea->operario->name }}
+            @endif
+        </td>
+    </tr>    
+    <tr>
+        <td>Fecha Creación</td>
+        <td>{{ $tarea->created_at }}</td>
+    </tr>    
+    <tr>
         <td>Estado</td>
         <td>
             @if ($tarea->estado == 'B')
@@ -97,18 +108,6 @@
             <span class="badge bg-danger text-white w-25" style="padding: 13px 0px">Cancelada</span>
             @endif
         </td>
-    </tr>    
-    <tr>
-        <td>Operario</td>
-        <td>
-            @if($tarea->operario_id && $tarea->operario)
-            {{ $tarea->operario->name }}
-            @endif
-        </td>
-    </tr>    
-    <tr>
-        <td>Fecha Creación</td>
-        <td>{{ $tarea->created_at }}</td>
     </tr>    
     <tr>
         <td>Fecha Realización</td>
