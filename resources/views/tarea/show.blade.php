@@ -87,7 +87,9 @@
         <td>Operario</td>
         <td>
             @if($tarea->operario_id && $tarea->operario)
-            {{ $tarea->operario->name }}
+            <a href="#" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
+                {{ $tarea->operario->name }}
+            </a>
             @endif
         </td>
     </tr>    
@@ -162,6 +164,26 @@
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                 </form>            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detallesOperario{{ $tarea->operario->id }}" tabindex="-1" aria-labelledby="detallesOperarioLabel{{ $tarea->operario->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detallesOperarioLabel{{ $tarea->operario->id }}">Información del País</h5>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID: </strong>{{$tarea->operario->id}}</p>
+                <p><strong>Nombre: </strong>{{$tarea->operario->name}}</p>
+                <p><strong>Email: </strong>{{$tarea->operario->email}}</p>
+                <p><strong>Teléfono: </strong>{{$tarea->operario->telefono}}</p>
+                <p><strong>Dirección: </strong>{{$tarea->operario->direccion}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
         </div>
     </div>
 </div>

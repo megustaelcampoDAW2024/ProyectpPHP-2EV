@@ -7,12 +7,21 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+
+    public function __cosntruct()
+    {
+        $this->middleware('rol:A')->only('edit', 'update', 'create', 'store', 'destroy', 'edit', 'update');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $clientes = Cliente::getClientes();
+        return view('cliente.index',
+            ['clientes' => $clientes]
+        );
     }
 
     /**

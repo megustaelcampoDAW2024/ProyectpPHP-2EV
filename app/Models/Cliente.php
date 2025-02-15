@@ -28,4 +28,9 @@ class Cliente extends Model
     {
         return $this->belongsTo(Pais::class, 'pais_id', 'id');
     }
+
+    public static function getClientes()
+    {
+        return Cliente::paginate(10);
+    }
 }

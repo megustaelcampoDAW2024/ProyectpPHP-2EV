@@ -14,10 +14,12 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Listar Tareas</a></li>
                     @if (Auth::user()->rol == 'A')
-                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.create') }}">Crear Tarea</a></li>
-                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Administrar Usuarios</a></li>
+                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Tareas</a></li>
+                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('cliente.index') }}">Clientes</a></li>
+                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Usuarios</a></li>
+                    @elseif (Auth::user()->rol == 'O')
+                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Completar Tareas</a></li>
                     @endif
                 </ul>
                 <div class="d-flex align-items-center">

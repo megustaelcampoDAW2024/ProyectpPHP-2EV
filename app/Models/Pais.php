@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pais extends Model
 {
-    protected $table = 'country';
+    protected $table = 'paises';
     protected $guarded = [];
 
     public function clientes(): HasMany
