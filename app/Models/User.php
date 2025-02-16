@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Tarea;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -55,6 +56,11 @@ class User extends Authenticatable
 
     public static function getOperarios()
     {
-        return User::where('rol', 'O')->get();
+        return User::paginate(10);
+    }
+
+    public static function getMyData()
+    {
+        return User::where('id', Auth::user()->id)->get();
     }
 }

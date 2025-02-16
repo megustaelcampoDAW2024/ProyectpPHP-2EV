@@ -23,12 +23,11 @@ class StoreClienteRequest extends FormRequest
      */
     public function rules(): array
     {
-        //arreglar CIF y TLF
         return [
             'pais_id' => 'required|exists:paises,id',
-            'cif' => 'required|string|max:255',
-            'nombre' => 'required', new validCifNieDni(),
-            'telefono' => 'required', new ValidPhoneNumber(),
+            'cif' => ['required', new validCifNieDni()],
+            'nombre' => 'required|string|max:255',
+            'telefono' => ['required', new ValidPhoneNumber()],
             'correo' => 'required|email|max:255',
             'cuenta_corriente' => 'required|string|max:255',
             'moneda' => 'required|string|exists:paises,iso_moneda',

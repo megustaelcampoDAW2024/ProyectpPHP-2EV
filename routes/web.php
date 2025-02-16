@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\Ejercicios;
 use App\Http\Controllers\TareaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/cliente/edit/{cliente}', [ClienteController::class, 'edit'])->name('cliente.edit');
     Route::put('/cliente/update/{cliente}', [ClienteController::class, 'update'])->name('cliente.update');
     Route::delete('/cliente/destroy/{cliente}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
+});
+
+//UserController
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/show/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('/user/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 });

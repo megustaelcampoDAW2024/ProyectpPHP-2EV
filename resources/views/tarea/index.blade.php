@@ -92,6 +92,7 @@
                 @endif
             </tr>
         @endforeach
+        @if (Auth::user()->rol == 'A')
         <tr>
             <td colspan="11">
                 <a class="btn btn-success w-100" href="{{ route('tarea.create') }}">
@@ -103,6 +104,7 @@
                 </a>
             </td>
         </tr>
+        @endif
     </tbody>
 </table>
 <div class="d-flex justify-content-center">

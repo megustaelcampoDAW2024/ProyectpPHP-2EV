@@ -3,7 +3,7 @@
 <form action="{{ route("tarea.store") }}" method="POST" enctype="multipart/form-data" class="container my-4">
     @csrf
     <fieldset class="border p-4">
-        <legend class="w-auto"><b>Formulario Modificación de Tarea</b></legend>
+        <legend class="w-auto"><b>Formulario Creacióm de Tarea</b></legend>
 
         @if(Auth::user()->rol == 'A')
 

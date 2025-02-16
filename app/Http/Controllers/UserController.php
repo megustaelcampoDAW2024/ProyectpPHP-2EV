@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -11,7 +13,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->rol == 'A')
+        {
+            $users = User::getOperarios();
+        }elseif(Auth::user()->rol == 'O')
+        {
+            $users = User::getMyData();
+        }
+        return view('user.index', ['users' => $users]);
     }
 
     /**

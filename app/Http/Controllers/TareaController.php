@@ -133,6 +133,7 @@ class TareaController extends Controller
         $tarea->update($tareaValidada);
         
         return to_route('tarea.show', ['tarea' => $tarea]);
+        // return "Estado: '" . $tarea->estado . "'" . "Fecha de realización: '" . $tarea->fecha_realizacion . "'";
     }
 
     public function complete(Tarea $tarea)
@@ -151,6 +152,7 @@ class TareaController extends Controller
     public function completeUpdate(UpdateCompleteRequest $request, Tarea $tarea)
     {
         $tareaValidada = $request->validated();
+        $tareaValidada['estado'] = 'R';
 
         // Eliminar fichero anterior si existe y se ha subido uno nuevo
         if ($request->hasFile('fichero')) {

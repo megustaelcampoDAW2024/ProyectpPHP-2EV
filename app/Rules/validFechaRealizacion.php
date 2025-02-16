@@ -22,10 +22,20 @@ class validFechaRealizacion implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($this->estado != 'R' && $value != null) {
-            $fail('La fecha de Realización solo puede ser introducida si la tarea ya se ha realizado.');
-        } elseif ($this->estado == 'R' && $value == null) {
-            $fail('La fecha de Realización es obligatoria si la tarea ya se ha realizado la tarea.');
+        if(!$this->validateFecha($value)){
+            $fail('La fecha de Realización debe completarse si la tarea ya se ha realizado');
         }
     }
+
+    private function validateFecha($value)
+    {
+        if ($this->estado != 'R' && !empty($value)) {
+            return false;
+        } 
+        if ($this->estado == 'R' && empty($value)) {
+            return false;
+        }
+        return true;
+    }
+
 }
