@@ -15,10 +15,12 @@ Route::get('/permiso', function () {
 })->name('no.permisos');
 
 // TareaController
+Route::get('/tarea/create', [TareaController::class, 'create'])->name('tarea.create');
+Route::post('/tarea/storeRequest', [TareaController::class, 'storeRequest'])->name('tarea.storeRequest');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [TareaController::class, 'index'])->name('tarea.index');
     Route::get('/tarea/index', [TareaController::class, 'index'])->name('tarea.index');
-    Route::get('/tarea/create', [TareaController::class, 'create'])->name('tarea.create');
     Route::post('/tarea/store', [TareaController::class, 'store'])->name('tarea.store');
     Route::get('/tarea/show/{tarea}', [TareaController::class, 'show'])->name('tarea.show');
     Route::get('/tarea/edit/{tarea}', [TareaController::class, 'edit'])->name('tarea.edit');

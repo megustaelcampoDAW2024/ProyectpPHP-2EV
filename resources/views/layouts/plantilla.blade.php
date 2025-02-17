@@ -14,15 +14,20 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    @if (Auth::user()->rol == 'A')
-                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Tareas</a></li>
-                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('cliente.index') }}">Clientes</a></li>
-                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('user.index') }}">Usuarios</a></li>
-                    @elseif (Auth::user()->rol == 'O')
-                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Completar Tareas</a></li>
-                        <li class="nav-item px-2"><a class="nav-link" href="{{ route('user.index') }}">Modificar mis Datos</a></li>                        
+                    @if (!Auth::check())
+                        <li class="nav-item p-2 text-white"><a class="nav-link" href="{{ route('login') }}">Constructora</a></li>
+                    @else
+                        @if (Auth::user()->rol == 'A')
+                            <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Tareas</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" href="{{ route('cliente.index') }}">Clientes</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" href="{{ route('user.index') }}">Usuarios</a></li>
+                        @elseif (Auth::user()->rol == 'O')
+                            <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Completar Tareas</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" href="{{ route('user.index') }}">Modificar mis Datos</a></li>                        
+                        @endif
                     @endif
                 </ul>
+                @if (Auth::check())
                 <div class="d-flex align-items-center">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -38,12 +43,13 @@
                         </a>
                     </div>
                 </div>
+                @endif
             </div>
         </nav>
-        <div class="container-fluid mt-5 pt-4">
+        <div class="container-fluid my-5 pt-4 pb-5">
             @yield('seccion')
         </div>
-        <footer class="bg-light text-center p-3">
+        <footer class="bg-light text-center p-3 fixed-bottom">
             <p class="m-2">Derechos reservados por megustaelcampo. Registrado &copy; {{ date('Y') }}</p>
         </footer>
     </body>

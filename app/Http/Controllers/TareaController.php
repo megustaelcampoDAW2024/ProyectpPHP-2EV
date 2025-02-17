@@ -10,14 +10,16 @@ use App\Models\Tarea;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreRequest;
 
 class TareaController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('rol:A')->only('create', 'store', 'edit', 'update', 'destroy');
+        $this->middleware('rol:A')->only('store', 'edit', 'update', 'destroy');
         $this->middleware('rol:O')->only('complete', 'completeUpdate');
+        // $this->middleware('rol:O')->except('create');
     }
 
     /**
@@ -41,14 +43,25 @@ class TareaController extends Controller
      */
     public function create()
     {
-        $operarios = User::getOperarios();
-        $clientes = Cliente::all();
-        $provincias = Provincia::all();
-        return view('tarea.create', [
-            'operarios' => $operarios,
-            'clientes' => $clientes,
-            'provincias' => $provincias
-        ]);
+        if(!Auth::check()) {
+            $clientes = Cliente::all();
+            $provincias = Provincia::all();
+            return view('tarea.request', [
+                'clientes' => $clientes,
+                'provincias' => $provincias
+            ]);
+        }elseif(Auth::user()->rol === 'A') {
+            $operarios = User::getOperarios();
+            $clientes = Cliente::all();
+            $provincias = Provincia::all();
+            return view('tarea.create', [
+                'operarios' => $operarios,
+                'clientes' => $clientes,
+                'provincias' => $provincias
+            ]);
+        }else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -77,6 +90,22 @@ class TareaController extends Controller
         $tarea->save();
     
         return to_route('tarea.index');
+    }
+
+    public function storeRequest(StoreRequest $request)
+    {
+        $validatedData = $request->except(['cif', 'telefono']);
+        $tarea = new Tarea($validatedData);
+        $tarea['estado'] = 'B';
+        $tarea['operario_id'] = null;
+        $cliente = Cliente::where('cif', $request->cif)
+              ->where('telefono', $request->telefono)
+              ->first();
+        $tarea['cliente_id'] = $cliente->id;
+        // dd($tarea);
+        $tarea->save();
+
+        return redirect('/');
     }
 
     /**

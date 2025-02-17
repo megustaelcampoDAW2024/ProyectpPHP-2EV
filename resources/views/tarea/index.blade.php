@@ -25,9 +25,13 @@
             <tr>
                 <td>{{ $tarea->id }}</td>
                 <td>
-                    <a href="#" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
-                        {{ $tarea->operario->name }}
-                    </a>
+                    @if ($tarea->operario_id)
+                        <a href="#" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
+                            {{ $tarea->operario->name }}
+                        </a>
+                    @else
+                        <span class="badge bg-secondary text-white w-100" style="padding: 13px 0px">Por Asignar</span>
+                    @endif
                 </td>
                 <td>{{ $tarea->nombre_contacto }}</td>
                 <td>{{ $tarea->apellido_contacto }}</td>
@@ -134,24 +138,26 @@
     </div>
 </div>
 
-<div class="modal fade" id="detallesOperario{{ $tarea->operario->id }}" tabindex="-1" aria-labelledby="detallesOperarioLabel{{ $tarea->operario->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="detallesOperarioLabel{{ $tarea->operario->id }}">Información del Operario Encargado</h5>
-            </div>
-            <div class="modal-body">
-                <p><strong>ID: </strong>{{$tarea->operario->id}}</p>
-                <p><strong>Nombre: </strong>{{$tarea->operario->name}}</p>
-                <p><strong>Email: </strong>{{$tarea->operario->email}}</p>
-                <p><strong>Teléfono: </strong>{{$tarea->operario->telefono}}</p>
-                <p><strong>Dirección: </strong>{{$tarea->operario->direccion}}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+@if($tarea->operario_id)
+    <div class="modal fade" id="detallesOperario{{ $tarea->operario->id }}" tabindex="-1" aria-labelledby="detallesOperarioLabel{{ $tarea->operario->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detallesOperarioLabel{{ $tarea->operario->id }}">Información del Operario Encargado</h5>
+                </div>
+                <div class="modal-body">
+                    <p><strong>ID: </strong>{{$tarea->operario->id}}</p>
+                    <p><strong>Nombre: </strong>{{$tarea->operario->name}}</p>
+                    <p><strong>Email: </strong>{{$tarea->operario->email}}</p>
+                    <p><strong>Teléfono: </strong>{{$tarea->operario->telefono}}</p>
+                    <p><strong>Dirección: </strong>{{$tarea->operario->direccion}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif
 @endforeach
 @endsection

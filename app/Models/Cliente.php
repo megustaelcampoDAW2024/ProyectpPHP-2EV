@@ -14,6 +14,17 @@ class Cliente extends Model
     protected $table = 'clientes';
     protected $guarded = [];
 
+    /**
+     * Set the client's telefono.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setTelefonoAttribute($value)
+    {
+        $this->attributes['telefono'] = str_replace([' ', '-'], '', $value);
+    }
+
     public function tareas(): HasMany
     {
         return $this->hasMany(Tarea::class, 'cliente_id', 'id');

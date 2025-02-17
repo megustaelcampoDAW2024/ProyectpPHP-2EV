@@ -4,8 +4,19 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
+            <div class="card mb-4">
+                <div class="card-header">¿Requiere de nuestros Servicios?</div>
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-center">
+                        <h3>¡Envíenos una solicitud!</h3>
+                        <a class="btn btn-primary w-25" href="{{route("tarea.create")}}">Solicitar</a>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">{{ __('Constructora') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -56,12 +67,6 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </form>

@@ -16,12 +16,12 @@ class Tarea extends Model
 
     public function operario(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'operario_id', 'id');
+        return $this->belongsTo(User::class, 'operario_id', 'id')->withTrashed();
     }
 
     public function cliente(): BelongsTo
     {
-        return $this->belongsTo(Cliente::class, 'cliente_id', 'id');
+        return $this->belongsTo(Cliente::class, 'cliente_id', 'id')->withTrashed();
     }
 
     public function provincia(): BelongsTo
