@@ -138,7 +138,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detallesOperarioLabel{{ $tarea->operario->id }}">Información del País</h5>
+                <h5 class="modal-title" id="detallesOperarioLabel{{ $tarea->operario->id }}">Información del Operario Encargado</h5>
             </div>
             <div class="modal-body">
                 <p><strong>ID: </strong>{{$tarea->operario->id}}</p>

@@ -10,6 +10,7 @@
             <th>Teléfono</th>
             <th>Dirección</th>
             <th>Rol</th>
+            <th>Fecha de Creación</th>
             @if (Auth::user()->rol == 'A')
             <th>Modificar</th>
             <th>Eliminar</th>
@@ -32,6 +33,11 @@
                         <span class="badge bg-success text-white w-100" style="padding: 13px 0px">Administrador</span>
                     @elseif ($user->rol == 'O')
                         <span class="badge bg-info text-white w-100" style="padding: 13px 0px">Operario</span>
+                    @endif
+                </td>
+                <td>
+                    @if ($user->created_at)
+                        {{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}
                     @endif
                 </td>
                 <td>

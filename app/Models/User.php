@@ -54,9 +54,14 @@ class User extends Authenticatable
 
     //get Users
 
-    public static function getOperarios()
+    public static function getUsers()
     {
         return User::paginate(10);
+    }
+
+    public static function getOperarios()
+    {
+        return User::where('rol', '=', 'O')->paginate(10);
     }
 
     public static function getMyData()
