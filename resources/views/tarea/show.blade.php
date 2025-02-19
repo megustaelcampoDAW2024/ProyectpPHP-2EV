@@ -42,11 +42,17 @@
         <td>Cliente</td>
         <td>
             @if (Auth::user()->rol == 'A')
-            <a href="#" data-toggle="modal" data-target="#detallesCliente{{ $tarea->cliente->id }}">
-                {{ $tarea->cliente->nombre }}
-            </a>
+                @if ($tarea->cliente->deleted_at)
+                    <a href="#" class="text-danger" data-toggle="modal" data-target="#detallesCliente{{ $tarea->cliente->id }}">
+                        {{ $tarea->cliente->nombre }}
+                    </a>
+                @else
+                    <a href="#" data-toggle="modal" data-target="#detallesCliente{{ $tarea->cliente->id }}">
+                        {{ $tarea->cliente->nombre }}
+                    </a>
+                @endif
             @else
-            {{ $tarea->cliente->nombre }}
+                {{ $tarea->cliente->nombre }}
             @endif
         </td>
     </tr>
@@ -54,9 +60,15 @@
         <td>Operario</td>
         <td>
             @if($tarea->operario_id && $tarea->operario)
-                <a href="#" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
-                    {{ $tarea->operario->name }}
-                </a>
+                @if ($tarea->operario->deleted_at)
+                    <a href="#" class="text-danger" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
+                        {{ $tarea->operario->name }}
+                    </a>
+                @else
+                    <a href="#" data-toggle="modal" data-target="#detallesOperario{{ $tarea->operario->id }}">
+                        {{ $tarea->operario->name }}
+                    </a>
+                @endif
             @else
                 <span class="badge bg-secondary text-white w-25" style="padding: 13px 0px">Operario por Asignar</span>
             @endif
@@ -194,6 +206,9 @@
                 <p><strong>Moneda: </strong>{{$tarea->cliente->moneda}}</p>
                 <p><strong>Importe Mensual: </strong>{{$tarea->cliente->importe_mensual}}</p>
                 <p><strong>País: </strong>{{$tarea->cliente->pais->nombre}}</p>
+                @if ($tarea->cliente->deleted_at)
+                    <p class="text-danger"><strong>Estado: </strong>Eliminado</p>
+                @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
@@ -215,6 +230,9 @@
                     <p><strong>Email: </strong>{{$tarea->operario->email}}</p>
                     <p><strong>Teléfono: </strong>{{$tarea->operario->telefono}}</p>
                     <p><strong>Dirección: </strong>{{$tarea->operario->direccion}}</p>
+                    @if ($tarea->operario->deleted_at)
+                        <p class="text-danger"><strong>Estado: </strong>Eliminado</p>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>

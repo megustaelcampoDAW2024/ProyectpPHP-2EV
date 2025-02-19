@@ -21,6 +21,7 @@
                             <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Tareas</a></li>
                             <li class="nav-item px-2"><a class="nav-link" href="{{ route('cliente.index') }}">Clientes</a></li>
                             <li class="nav-item px-2"><a class="nav-link" href="{{ route('user.index') }}">Usuarios</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" href="{{ route('cuota.index') }}">Cuotas</a></li>
                         @elseif (Auth::user()->rol == 'O')
                             <li class="nav-item px-2"><a class="nav-link" href="{{ route('tarea.index') }}">Completar Tareas</a></li>
                             <li class="nav-item px-2"><a class="nav-link" href="{{ route('user.index') }}">Modificar mis Datos</a></li>                        

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CuotaController;
 use App\Http\Controllers\Ejercicios;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
@@ -50,4 +51,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+});
+
+//CuotaController
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/cuota/index', [CuotaController::class, 'index'])->name('cuota.index');
+    Route::get('/cuota/create', [CuotaController::class, 'create'])->name('cuota.create');
+    Route::post('/cuota/store', [CuotaController::class, 'store'])->name('cuota.store');
+    Route::get('/cuota/show/{cuota}', [CuotaController::class, 'show'])->name('cuota.show');
+    Route::get('/cuota/edit/{cuota}', [CuotaController::class, 'edit'])->name('cuota.edit');
+    Route::put('/cuota/update/{cuota}', [CuotaController::class, 'update'])->name('cuota.update');
+    Route::delete('/cuota/destroy/{cuota}', [CuotaController::class, 'destroy'])->name('cuota.destroy');
 });
