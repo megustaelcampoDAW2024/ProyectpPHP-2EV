@@ -24,17 +24,36 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `correo` varchar(255) DEFAULT NULL,
   `cuenta_corriente` varchar(255) DEFAULT NULL,
   `moneda` varchar(255) DEFAULT NULL,
-  `importe_mensual` decimal(20,6) DEFAULT NULL,
+  `importe_mensual` decimal(20,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pais_id` (`pais_id`),
   CONSTRAINT `FK_clientes_paises` FOREIGN KEY (`pais_id`) REFERENCES `paises` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla constructora.clientes: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla constructora.clientes: ~3 rows (aproximadamente)
 DELETE FROM `clientes`;
+INSERT INTO `clientes` (`id`, `pais_id`, `cif`, `nombre`, `telefono`, `correo`, `cuenta_corriente`, `moneda`, `importe_mensual`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 682, '12345678Z', 'Cliente 1', '+34644194414', 'cliente1@cliente.es', 'SPEF2345234523452345', 'EUR', 45.00, '2025-02-13 10:58:26', '2025-02-18 07:23:13', NULL),
+	(2, 583, '12345678Z', 'Cliente 2', '+34234234234', 'cliente2@cliente.es', 'FGHT8765876587658765', 'EUR', 34.45, '2025-02-14 12:50:27', '2025-02-15 18:20:24', NULL),
+	(7, 724, '44247955A', 'Pablo', '+34644194414', 'pablobejarano2005@gmail.com', '45567890', 'BOB', 34.70, '2025-02-17 16:48:11', '2025-02-17 17:55:55', NULL);
+
+-- Volcando estructura para tabla constructora.remesa
+CREATE TABLE IF NOT EXISTS `remesa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mes` int(11) DEFAULT NULL,
+  `ano` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla constructora.remesa: ~3 rows (aproximadamente)
+DELETE FROM `remesa`;
+INSERT INTO `remesa` (`id`, `mes`, `ano`) VALUES
+	(1, 1, 2025),
+	(2, 2, 2025),
+	(3, 3, 2025);
 
 -- Volcando estructura para tabla constructora.cuota
 CREATE TABLE IF NOT EXISTS `cuota` (
@@ -43,19 +62,30 @@ CREATE TABLE IF NOT EXISTS `cuota` (
   `remesa_id` int(11) DEFAULT NULL,
   `concepto` varchar(255) DEFAULT NULL,
   `fecha_emision` timestamp NULL DEFAULT NULL,
-  `importe` decimal(20,6) DEFAULT NULL,
-  `pagada` tinyint(4) DEFAULT NULL,
-  `fecha_pago` tinyint(4) DEFAULT NULL,
+  `importe` float DEFAULT NULL,
+  `fecha_pago` timestamp NULL DEFAULT NULL,
   `notas` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cliente_id` (`cliente_id`),
   KEY `remesa_id` (`remesa_id`),
   CONSTRAINT `FK_cuota_clientes` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_cuota_remesa` FOREIGN KEY (`remesa_id`) REFERENCES `remesa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla constructora.cuota: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla constructora.cuota: ~11 rows (aproximadamente)
 DELETE FROM `cuota`;
+INSERT INTO `cuota` (`id`, `cliente_id`, `remesa_id`, `concepto`, `fecha_emision`, `importe`, `fecha_pago`, `notas`) VALUES
+	(1, 1, 1, 'Remesa', '2025-02-28 10:49:19', NULL, '2025-01-28 10:52:34', 'Remesa 1 - 2025'),
+	(2, 2, 1, 'Remesa', '2025-02-28 10:49:19', NULL, '2025-01-28 10:54:43', 'Remesa 1 - 2025'),
+	(3, 7, 1, 'Remesa', '2025-02-28 10:49:19', NULL, '2025-01-28 10:55:18', 'Remesa 1 - 2025'),
+	(4, 1, NULL, 'Trabajo Extra', '2025-02-28 10:56:09', 89.9, '2025-01-28 10:57:15', 'Trabajo Extra'),
+	(5, 1, 2, 'Remesa', '2025-02-28 11:00:51', NULL, '2025-02-28 11:01:00', 'Remesa 2 - 2025'),
+	(6, 2, 2, 'Remesa', '2025-02-28 11:00:51', NULL, '2025-02-28 11:01:29', 'Remesa 2 - 2025'),
+	(7, 7, 2, 'Remesa', '2025-02-28 11:00:51', NULL, '2025-02-28 11:01:46', 'Remesa 2 - 2025'),
+	(8, 1, 3, 'Remesa', '2025-03-28 11:02:51', NULL, '2025-03-28 11:03:03', 'Remesa 3 - 2025'),
+	(9, 2, 3, 'Remesa', '2025-03-28 11:02:51', NULL, '2025-03-28 11:03:04', 'Remesa 3 - 2025'),
+	(10, 7, 3, 'Remesa', '2025-03-28 11:02:51', NULL, '2025-03-28 11:03:05', 'Remesa 3 - 2025'),
+	(11, 2, NULL, 'Trabajo Extra', '2025-02-28 11:05:00', 78.88, NULL, 'Trabajo Extra');
 
 -- Volcando estructura para tabla constructora.paises
 CREATE TABLE IF NOT EXISTS `paises` (
@@ -318,16 +348,31 @@ INSERT INTO `paises` (`id`, `iso2`, `iso3`, `prefijo`, `nombre`, `continente`, `
 	(887, 'YE', 'YEM', 967, 'Yemen', 'Asia', NULL, 'YER', 'Rial yemení (de Yemen)'),
 	(894, 'ZM', 'ZMB', 260, 'Zambia', 'África', NULL, 'ZMK', 'Kwacha zambiano');
 
--- Volcando estructura para tabla constructora.remesa
-CREATE TABLE IF NOT EXISTS `remesa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mes` int(11) DEFAULT NULL,
-  `ano` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Volcando estructura para tabla constructora.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cif` varchar(15) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `telefono` varchar(50) DEFAULT NULL,
+  `direccion` varchar(50) DEFAULT NULL,
+  `rol` enum('A','O') DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla constructora.remesa: ~0 rows (aproximadamente)
-DELETE FROM `remesa`;
+-- Volcando datos para la tabla constructora.users: ~3 rows (aproximadamente)
+DELETE FROM `users`;
+INSERT INTO `users` (`id`, `cif`, `name`, `email`, `email_verified_at`, `telefono`, `direccion`, `rol`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, '12345678Z', 'Pablo Bejarano', 'pablobejarano2005@gmail.com', NULL, '+34644194414', 'Blas Infante, merequetengue', 'A', '$2y$12$x06sPUk2.ouN2.JS8ySzzu2sCLH1EcxXG5yX8DGihqIrs0O1Pe1yS', NULL, '2025-01-31 08:06:15', '2025-02-16 22:07:24', NULL),
+	(2, '12345678Z', 'Romeo Julian', 'pbejvil955@gmail.es', NULL, '+34-123-123-123', 'Blas Infante, 41', 'O', '$2y$12$f8QfJ3SPo6Dj6JtIbiiCaucWrrmQ.F1D8VrxlwTtA5xeclJf5Dwgq', NULL, '2025-02-16 23:00:00', '2025-02-17 07:46:48', NULL),
+	(3, '12345678Z', 'Juan Manuel', 'pbejvil955@g.educaand.es', NULL, '+34-456-456-456', 'El Camino, 34', 'O', '$2y$12$DKI1W5ovaTuMQVeODxGmIeQG6yTdqvBep4VacX3HnkDUjvEa3A8W6', NULL, '2025-02-12 14:53:49', '2025-02-18 07:16:28', NULL);
 
 -- Volcando estructura para tabla constructora.tareas
 CREATE TABLE IF NOT EXISTS `tareas` (
@@ -359,10 +404,28 @@ CREATE TABLE IF NOT EXISTS `tareas` (
   CONSTRAINT `FK_tareas_clientes` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_tareas_tbl_provincias` FOREIGN KEY (`provincia_id`) REFERENCES `tbl_provincias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_tareas_users` FOREIGN KEY (`operario_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla constructora.tareas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla constructora.tareas: ~16 rows (aproximadamente)
 DELETE FROM `tareas`;
+INSERT INTO `tareas` (`id`, `operario_id`, `cliente_id`, `nombre_contacto`, `apellido_contacto`, `telefono_contacto`, `correo_contacto`, `descripcion`, `direccion`, `poblacion`, `cod_postal`, `provincia_id`, `estado`, `created_at`, `updated_at`, `deleted_at`, `fecha_realizacion`, `anotaciones_anteriores`, `anotaciones_posteriores`, `fichero`, `foto`) VALUES
+	(1, 2, 2, 'Example7', 'Example7', '+34-777-77-77-77', 'example@example.com7', 'Example7', 'Example7', 'Example7', '21777', 21, 'R', '2025-02-13 21:32:18', '2025-02-14 19:03:57', NULL, '2025-03-08 23:00:00', '77777', '77777', 'ficheros/tarea_1/V7xboIpUFfWs14zc3KNCvWJBr4i24KmcXyvpEpqd.pdf', 'fotos/tarea_1/tns8GWv37YA8U6izQlii1g6fgKyZxVN0UmflChhs.jpg'),
+	(4, 2, 7, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'Example', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-13 21:41:10', '2025-02-16 13:24:54', NULL, NULL, 'Example', 'Example', NULL, NULL),
+	(5, 3, 1, 'Pablo3', 'Bejarano3', '+34644194414', 'example@example.com3', 'Example3', 'Blas Infante3', 'Almonte3', '21730', 21, 'R', '2025-02-14 07:34:41', '2025-02-14 16:58:31', NULL, '2025-03-02 23:00:00', 'Example3', 'Example3', NULL, NULL),
+	(6, 3, 1, 'Pablo4', 'Bejarano4', '+34644194414', 'example@example.com', 'Example4', 'Blas Infante4', 'Almonte4', '21730', 21, 'R', '2025-02-14 07:57:59', '2025-02-16 19:53:07', NULL, '2025-02-01 23:00:00', 'Example Operario', 'Example Operario', 'ficheros/tarea_6/GyIQjpke1UXwPfptictBmgf4AbuIEcwPTpGyfN0i.pdf', 'fotos/tarea_6/w30HBdwN1Zjo60KzShIuzoQfQs4TuY3GQkrwjT5c.jpg'),
+	(7, 3, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'Example5', 'Blas Infante', 'Almonte', '21730', 21, 'R', '2025-02-14 07:59:11', '2025-02-14 19:35:20', NULL, '2025-02-15 23:00:00', 'wadwadwawdaawd', 'awdawdad', 'ficheros/tarea_7/scrMlUr9yhFilabxObwrnvDkfudElMKGuVWZ7fQS.pdf', 'fotos/tarea_7/YZDFrPG9ega11CHZfMCy9YhqfkzAAH8nt9e7xBT4.png'),
+	(8, 2, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'Example', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-15 14:44:57', '2025-02-16 15:26:16', NULL, NULL, NULL, NULL, NULL, NULL),
+	(9, 2, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'Example 34', 'Blas Infante', 'Almonte', '21730', 21, 'R', '2025-02-15 14:45:53', '2025-02-16 13:36:46', NULL, '2025-02-11 23:00:00', NULL, NULL, NULL, NULL),
+	(10, 2, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'Example 35', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-15 14:46:27', '2025-02-16 13:25:28', NULL, NULL, NULL, NULL, NULL, NULL),
+	(11, 3, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'Example 36', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-15 14:46:56', '2025-02-16 13:26:28', NULL, NULL, NULL, NULL, NULL, NULL),
+	(12, 2, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'awdawad', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-15 15:01:15', '2025-02-16 13:26:43', NULL, NULL, NULL, NULL, NULL, NULL),
+	(13, 2, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'awdawad', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-15 15:01:18', '2025-02-16 13:27:23', NULL, NULL, NULL, NULL, NULL, NULL),
+	(14, 2, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'awdawad', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-15 15:01:35', '2025-02-16 13:27:53', NULL, NULL, NULL, NULL, NULL, NULL),
+	(15, 2, 1, 'Pablo', 'Bejarano', '+34644194414', 'example@example.com', 'awdawad', 'Blas Infante', 'Almonte', '21730', 21, 'R', '2025-02-15 15:01:38', '2025-02-16 13:37:05', NULL, '2025-02-07 23:00:00', NULL, NULL, NULL, NULL),
+	(16, NULL, 7, 'Pablo', 'Bejarano', '+34123123123', 'pablobejarano2005@gmail.com', 'Ejemplo Request 1', 'Blas Infante', 'Almonte', '21730', 21, 'B', '2025-02-17 18:16:13', '2025-02-17 18:16:13', NULL, NULL, 'Esto es un ejemplo de request 1', NULL, NULL, NULL),
+	(17, NULL, 7, 'Pablo', 'Bejarano', '+34644194414', 'pablobejarano2005@gmail.com', 'Ejemplo 3 request', 'Blas Infante', 'Almonte', '21730', 21, 'B', '2025-02-17 18:31:11', '2025-02-17 18:31:11', NULL, NULL, 'Ejemplo 3 request', NULL, NULL, NULL),
+	(18, 3, 7, 'Pablo', 'Bejarano', '+34644194414', 'pablobejarano2005@gmail.com', 'Ejemplo 4 request', 'Blas Infante', 'Almonte', '21730', 21, 'P', '2025-02-17 18:39:47', '2025-02-17 18:52:40', NULL, NULL, 'Ejemplo 4 request', NULL, NULL, NULL),
+	(19, 2, 7, 'Pablo', 'Bejarano', '+34644194414', 'pablobejarano2005@gmail.com', 'cacacaca', 'Blas Infante', 'Almonte', '21730', 21, 'R', '2025-02-28 13:31:31', '2025-02-28 13:34:12', NULL, '2025-03-06 23:00:00', 'fkjsdfnksdnf', 'skfsdfhksdjf', 'ficheros/tarea_19/zKRDHK3mYxPdkaxk0CwDKebrcRxTJXkBThNWKsEH.pdf', 'fotos/tarea_19/u0qNLQmxnhqMtOTaSFwUJYZjvvDFBTCDkAbq3IrH.png');
 
 -- Volcando estructura para tabla constructora.tbl_comunidadesautonomas
 CREATE TABLE IF NOT EXISTS `tbl_comunidadesautonomas` (
@@ -461,31 +524,6 @@ INSERT INTO `tbl_provincias` (`id`, `nombre`, `comunidad_id`) VALUES
 	(50, 'Zaragoza', 2),
 	(51, 'Ceuta', 18),
 	(52, 'Melilla', 19);
-
--- Volcando estructura para tabla constructora.users
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) unsigned NOT NULL DEFAULT 0,
-  `cif` varchar(15) NOT NULL DEFAULT '0',
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `telefono` varchar(50) DEFAULT NULL,
-  `direccion` varchar(50) DEFAULT NULL,
-  `rol` enum('A','O') DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Volcando datos para la tabla constructora.users: ~2 rows (aproximadamente)
-DELETE FROM `users`;
-INSERT INTO `users` (`id`, `cif`, `name`, `email`, `email_verified_at`, `telefono`, `direccion`, `rol`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(0, '0', 'Pablo Bejarano', 'pbejvil955@g.educaand.es', NULL, NULL, NULL, 'O', '$2y$12$DKI1W5ovaTuMQVeODxGmIeQG6yTdqvBep4VacX3HnkDUjvEa3A8W6', NULL, '2025-02-12 14:53:49', '2025-02-12 14:53:49', NULL),
-	(1, '0', 'Pablo Bejarano', 'pablobejarano2005@gmail.com', NULL, NULL, NULL, 'A', '$2y$12$CgPfe565n2hbiwBL80SeV.44j60mw3QpyYenei/URx2M4pNjxEgm2', NULL, '2025-01-31 08:06:15', '2025-01-31 08:06:15', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

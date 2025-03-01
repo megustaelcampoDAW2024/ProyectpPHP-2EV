@@ -5,6 +5,7 @@ use App\Http\Controllers\CuotaController;
 use App\Http\Controllers\Ejercicios;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RemesaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -62,4 +63,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/cuota/edit/{cuota}', [CuotaController::class, 'edit'])->name('cuota.edit');
     Route::put('/cuota/update/{cuota}', [CuotaController::class, 'update'])->name('cuota.update');
     Route::delete('/cuota/destroy/{cuota}', [CuotaController::class, 'destroy'])->name('cuota.destroy');
+    Route::get('/cuota/print/{cuota}', [CuotaController::class, 'print'])->name('cuota.print');
+});
+
+//RemesaController
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/remesa/index', [RemesaController::class, 'index'])->name('remesa.index');
+    Route::get('/remesa/create', [RemesaController::class, 'create'])->name('remesa.create');
+    Route::post('/remesa/store', [RemesaController::class, 'store'])->name('remesa.store');
+    Route::get('/remesa/show/{remesa}', [RemesaController::class, 'show'])->name('remesa.show');
+    Route::get('/remesa/edit/{remesa}', [RemesaController::class, 'edit'])->name('remesa.edit');
+    Route::put('/remesa/update/{remesa}', [RemesaController::class, 'update'])->name('remesa.update');
+    Route::delete('/remesa/destroy/{remesa}', [RemesaController::class, 'destroy'])->name('remesa.destroy');
 });
