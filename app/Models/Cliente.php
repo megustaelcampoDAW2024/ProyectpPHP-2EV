@@ -25,21 +25,41 @@ class Cliente extends Model
         $this->attributes['telefono'] = str_replace([' ', '-'], '', $value);
     }
 
+    /**
+     * Get the tareas for the Cliente.
+     *
+     * @return HasMany
+     */
     public function tareas(): HasMany
     {
         return $this->hasMany(Tarea::class, 'cliente_id', 'id');
     }
 
+    /**
+     * Get the cuotas for the Cliente.
+     *
+     * @return HasMany
+     */
     public function cuotas(): HasMany
     {
         return $this->hasMany(Cuota::class, 'cliente_id', 'id');
     }
 
+    /**
+     * Get the pais that owns the Cliente.
+     *
+     * @return BelongsTo
+     */
     public function pais(): BelongsTo
     {
         return $this->belongsTo(Pais::class, 'pais_id', 'id');
     }
 
+    /**
+     * Get all Clientes with pagination.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function getClientes()
     {
         return Cliente::paginate(10);

@@ -14,6 +14,8 @@ class RemesaController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -22,6 +24,8 @@ class RemesaController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -30,6 +34,9 @@ class RemesaController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreRemesaRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreRemesaRequest $request)
     {
@@ -47,40 +54,46 @@ class RemesaController extends Controller
 
     /**
      * Send all cuotas.
+     *
+     * @param  \App\Models\Remesa  $remesa
+     * @return \Illuminate\Http\Response
      */
     public function sendAllCuotas(Remesa $remesa)
-{
-    $clientes = Cliente::all();
-    foreach ($clientes as $cliente) {
-        $cuota = Cuota::where('cliente_id', $cliente->id)
-            ->where('remesa_id', $remesa->id)->first();
+    {
+        $clientes = Cliente::all();
+        foreach ($clientes as $cliente) {
+            $cuota = Cuota::where('cliente_id', $cliente->id)
+                ->where('remesa_id', $remesa->id)->first();
 
-        if ($cuota) {
-            $cuota->update([
-                'concepto' => 'Remesa',
-                'fecha_emision' => now(),
-                'notas' => 'Remesa ' . $remesa->mes . ' - ' . $remesa->ano,
-            ]);
-        } else {
-            $cuota = Cuota::create([
-                'cliente_id' => $cliente->id,
-                'remesa_id' => $remesa->id,
-                'concepto' => 'Remesa',
-                'fecha_emision' => now(),
-                'importe' => $cliente->importe_mensual,
-                'moneda' => $cliente->moneda,
-                'notas' => 'Remesa ' . $remesa->mes . ' - ' . $remesa->ano,
-            ]);
+            if ($cuota) {
+                $cuota->update([
+                    'concepto' => 'Remesa',
+                    'fecha_emision' => now(),
+                    'notas' => 'Remesa ' . $remesa->mes . ' - ' . $remesa->ano,
+                ]);
+            } else {
+                $cuota = Cuota::create([
+                    'cliente_id' => $cliente->id,
+                    'remesa_id' => $remesa->id,
+                    'concepto' => 'Remesa',
+                    'fecha_emision' => now(),
+                    'importe' => $cliente->importe_mensual,
+                    'moneda' => $cliente->moneda,
+                    'notas' => 'Remesa ' . $remesa->mes . ' - ' . $remesa->ano,
+                ]);
+            }
+
+            // Enviar correo con la factura
+            Mail::to($cliente->correo)->send(new CuotaFacturaMailable($cuota));
         }
-
-        // Enviar correo con la factura
-        Mail::to($cliente->correo)->send(new CuotaFacturaMailable($cuota));
+        return to_route('cuota.index')->with('status', 'Cuotas e E-Mails enviados correctamente');
     }
-    return to_route('cuota.index')->with('status', 'Cuotas e E-Mails enviados correctamente');
-}
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Remesa  $remesa
+     * @return \Illuminate\Http\Response
      */
     public function edit(Remesa $remesa)
     {
@@ -89,6 +102,10 @@ class RemesaController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreRemesaRequest  $request
+     * @param  \App\Models\Remesa  $remesa
+     * @return \Illuminate\Http\Response
      */
     public function update(StoreRemesaRequest $request, Remesa $remesa)
     {
@@ -101,6 +118,9 @@ class RemesaController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Remesa  $remesa
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Remesa $remesa)
     {

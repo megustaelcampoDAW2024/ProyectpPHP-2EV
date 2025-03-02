@@ -7,9 +7,13 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class validFechaRealizacion implements ValidationRule
 {
-
     protected $estado;
 
+    /**
+     * Constructor.
+     *
+     * @param string $estado Estado de la tarea.
+     */
     public function __construct($estado)
     {
         $this->estado = $estado;
@@ -18,7 +22,10 @@ class validFechaRealizacion implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param string $attribute
+     * @param mixed $value
+     * @param \Closure $fail
+     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -27,7 +34,13 @@ class validFechaRealizacion implements ValidationRule
         }
     }
 
-    private function validateFecha($value)
+    /**
+     * Validate the date based on the task state.
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    private function validateFecha($value): bool
     {
         if ($this->estado != 'R' && !empty($value)) {
             return false;
@@ -37,5 +50,4 @@ class validFechaRealizacion implements ValidationRule
         }
         return true;
     }
-
 }

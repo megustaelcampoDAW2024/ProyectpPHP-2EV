@@ -15,6 +15,8 @@ class CuotaFacturaMailable extends Mailable
 
     /**
      * Create a new message instance.
+     *
+     * @param Cuota $cuota
      */
     public function __construct(Cuota $cuota)
     {
@@ -23,6 +25,8 @@ class CuotaFacturaMailable extends Mailable
 
     /**
      * Build the message.
+     *
+     * @return $this
      */
     public function build()
     {

@@ -9,6 +9,11 @@ class validCodigoPostal implements ValidationRule
 {
     protected $provinciaId;
 
+    /**
+     * Constructor.
+     *
+     * @param string $provinciaId ID de la provincia.
+     */
     public function __construct($provinciaId)
     {
         $this->provinciaId = $provinciaId;
@@ -17,7 +22,10 @@ class validCodigoPostal implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param string $attribute
+     * @param mixed $value
+     * @param \Closure $fail
+     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

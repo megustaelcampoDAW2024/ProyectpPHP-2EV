@@ -7,7 +7,14 @@ use App\Models\Cliente;
 
 class ValidCifTelefono implements Rule
 {
-    public function passes($attribute, $value)
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param string $attribute
+     * @param mixed $value
+     * @return bool
+     */
+    public function passes($attribute, $value): bool
     {
         $cif = request()->input('cif');
         $telefono = request()->input('telefono');
@@ -15,7 +22,12 @@ class ValidCifTelefono implements Rule
         return Cliente::where('cif', $cif)->where('telefono', $telefono)->exists();
     }
 
-    public function message()
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message(): string
     {
         return 'El CIF y el teléfono no coinciden con ningún cliente.';
     }

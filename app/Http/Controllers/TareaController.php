@@ -14,16 +14,19 @@ use App\Http\Requests\StoreRequest;
 
 class TareaController extends Controller
 {
-
+    /**
+     * TareaController constructor.
+     */
     public function __construct()
     {
         $this->middleware('rol:A')->only('store', 'edit', 'update', 'destroy');
         $this->middleware('rol:O')->only('complete', 'completeUpdate');
-        // $this->middleware('rol:O')->except('create');
     }
 
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -40,6 +43,8 @@ class TareaController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -66,6 +71,9 @@ class TareaController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreTareaRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreTareaRequest $request)
     {
@@ -92,6 +100,12 @@ class TareaController extends Controller
         return to_route('tarea.index')->with('status', 'Tarea creada correctamente');
     }
 
+    /**
+     * Store a newly created resource request in storage.
+     *
+     * @param  \App\Http\Requests\StoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function storeRequest(StoreRequest $request)
     {
         $validatedData = $request->except(['cif', 'telefono']);
@@ -109,6 +123,9 @@ class TareaController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param  \App\Models\Tarea  $tarea
+     * @return \Illuminate\Http\Response
      */
     public function show(Tarea $tarea)
     {
@@ -119,6 +136,9 @@ class TareaController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Tarea  $tarea
+     * @return \Illuminate\Http\Response
      */
     public function edit(Tarea $tarea)
     {
@@ -135,6 +155,10 @@ class TareaController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreTareaRequest  $request
+     * @param  \App\Models\Tarea  $tarea
+     * @return \Illuminate\Http\Response
      */
     public function update(StoreTareaRequest $request, Tarea $tarea)
     {
@@ -164,6 +188,12 @@ class TareaController extends Controller
         // return "Estado: '" . $tarea->estado . "'" . "Fecha de realización: '" . $tarea->fecha_realizacion . "'";
     }
 
+    /**
+     * Show the form for completing the specified resource.
+     *
+     * @param  \App\Models\Tarea  $tarea
+     * @return \Illuminate\Http\Response
+     */
     public function complete(Tarea $tarea)
     {
         $user = Auth::user();
@@ -182,6 +212,13 @@ class TareaController extends Controller
         }
     }
 
+    /**
+     * Update the specified resource as completed.
+     *
+     * @param  \App\Http\Requests\UpdateCompleteRequest  $request
+     * @param  \App\Models\Tarea  $tarea
+     * @return \Illuminate\Http\Response
+     */
     public function completeUpdate(UpdateCompleteRequest $request, Tarea $tarea)
     {
         $tareaValidada = $request->validated();
@@ -212,6 +249,9 @@ class TareaController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Tarea  $tarea
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Tarea $tarea)
     {

@@ -47,23 +47,41 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Get the tareas for the User.
+     *
+     * @return HasMany
+     */
     public function tareas(): HasMany
     {
         return $this->hasMany(Tarea::class, 'user_id', 'id');
     }
 
-    //get Users
-
+    /**
+     * Get all Users with pagination.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function getUsers()
     {
         return User::paginate(10);
     }
 
+    /**
+     * Get all Operarios with pagination.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public static function getOperarios()
     {
         return User::where('rol', '=', 'O')->paginate(10);
     }
 
+    /**
+     * Get the authenticated User's data.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public static function getMyData()
     {
         return User::where('id', Auth::user()->id)->get();

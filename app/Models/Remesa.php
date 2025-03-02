@@ -12,6 +12,11 @@ class Remesa extends Model
     protected $table = 'remesa';
     protected $guarded = [];
 
+    /**
+     * Get the cuotas for the Remesa.
+     *
+     * @return HasMany
+     */
     public function cuotas(): HasMany
     {
         return $this->hasMany(Cuota::class, 'remesa_id', 'id');

@@ -14,7 +14,9 @@ use App\Mail\CuotaFacturaMailable;
 
 class CuotaController extends Controller
 {
-
+    /**
+     * CuotaController constructor.
+     */
     public function __construct()
     {
         $this->middleware('rol:A')->only('index', 'create', 'store', 'show', 'edit', 'update', 'destroy');
@@ -22,6 +24,8 @@ class CuotaController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -32,6 +36,8 @@ class CuotaController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -42,6 +48,9 @@ class CuotaController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreCuotaRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreCuotaRequest $request)
     {
@@ -68,6 +77,9 @@ class CuotaController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param  \App\Models\Cuota  $cuota
+     * @return \Illuminate\Http\Response
      */
     public function show(Cuota $cuota)
     {
@@ -76,6 +88,9 @@ class CuotaController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Cuota  $cuota
+     * @return \Illuminate\Http\Response
      */
     public function edit(Cuota $cuota)
     {
@@ -86,6 +101,10 @@ class CuotaController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreCuotaRequest  $request
+     * @param  \App\Models\Cuota  $cuota
+     * @return \Illuminate\Http\Response
      */
     public function update(StoreCuotaRequest $request, Cuota $cuota)
     {
@@ -107,6 +126,9 @@ class CuotaController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Cuota  $cuota
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Cuota $cuota)
     {
@@ -114,6 +136,12 @@ class CuotaController extends Controller
         return to_route('cuota.index')->with('status', 'Cuota eliminada correctamente');
     }
 
+    /**
+     * Print the specified resource.
+     *
+     * @param  \App\Models\Cuota  $cuota
+     * @return \Illuminate\Http\Response
+     */
     public function print(Cuota $cuota)
     {
         $response = Http::get('https://api.exchangerate-api.com/v4/latest/' . $cuota->moneda);
@@ -123,6 +151,12 @@ class CuotaController extends Controller
         return $pdf->download('factura_cuota_' . $cuota->id . '.pdf');
     }
 
+    /**
+     * Mark the specified resource as paid.
+     *
+     * @param  \App\Models\Cuota  $cuota
+     * @return \Illuminate\Http\Response
+     */
     public function paid(Cuota $cuota)
     {
         if (is_null($cuota->fecha_pago)) {
@@ -138,6 +172,12 @@ class CuotaController extends Controller
         return to_route('cuota.index')->with('status', 'Cuota marcada como pagada');
     }
 
+    /**
+     * Send an email with the specified resource.
+     *
+     * @param  \App\Models\Cuota  $cuota
+     * @return \Illuminate\Http\Response
+     */
     public function sendMail(Cuota $cuota)
     {
         Mail::to($cuota->cliente->correo)->send(new CuotaFacturaMailable($cuota));
