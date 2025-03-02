@@ -1,8 +1,6 @@
 @extends('layouts.plantilla')
 
 @section('seccion')
-<h1>Editar Cuota</h1>
-
 <form action="{{ route('cuota.update', $cuota) }}" method="POST">
     @csrf
     @method('PUT')
@@ -32,7 +30,7 @@
             <select class="form-control" name="remesa_id" id="remesa_id">
                 <option value="">Ninguna</option>
                 @foreach($remesas as $remesa)
-                    <option value="{{ $remesa->id }}" {{ old('remesa_id', $cuota->remesa_id) == $remesa->id ? 'selected' : '' }}>{{ $remesa->mes }}/{{ $remesa->ano }}</option>
+                    <option value="{{ $remesa->id }}" {{ old('remesa_id', $cuota->remesa_id) == $remesa->id ? 'selected' : '' }}>{{ $remesa->descripcion }}</option>
                 @endforeach
             </select>
         </div>
@@ -79,7 +77,7 @@
                         @else
                             <label for="notas">Notas</label>
                         @enderror
-                        <input type="text" class="form-control" name="notas" id="notas" value="{{ old('notas') }}">
+                        <input type="text" class="form-control" name="notas" id="notas" value="{{ old('notas', $cuota->notas) }}">
                     </div>
                 `);
             } else {

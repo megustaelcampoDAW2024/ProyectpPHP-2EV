@@ -189,7 +189,10 @@
             @else
                 <label for="fichero">Fichero Resumen de las Tareas Realizadas</label>
             @enderror
-            <input type="file" class="form-control-file" name="fichero" id="fichero" accept=".pdf" value="{{ old('fichero', $tarea->fichero) }}">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFileLangFichero" lang="es" name="fichero" accept=".pdf" value="{{ old('fichero', $tarea->fichero) }}" onchange="document.getElementById('customFileLangFicheroLabel').innerText = this.files[0].name">
+                <label class="custom-file-label" for="customFileLangFichero" id="customFileLangFicheroLabel" data-browse=".pdf">Seleccionar Archivo</label>
+            </div>
         </div>
 
         <div class="form-group">
@@ -198,7 +201,10 @@
             @else
                 <label for="foto">Foto de las Tareas Realizadas</label>
             @enderror
-            <input type="file" class="form-control-file" name="foto" id="foto" accept=".jpg, .jpeg, .png" value="{{ old('foto', $tarea->foto) }}">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFileLang" lang="es" name="foto" accept=".jpg, .jpeg, .png" value="{{ old('foto', $tarea->foto) }}" onchange="document.getElementById('customFileLangLabel').innerText = this.files[0].name">
+                <label class="custom-file-label" for="customFileLang" id="customFileLangLabel" data-browse=".jpg .jpeg .png">Seleccionar Archivo</label>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Actualizar</button>
     </fieldset>

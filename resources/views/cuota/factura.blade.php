@@ -64,6 +64,10 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>Nota</td>
+                        <td>{{ $cuota->notas }} uds.</td>
+                    </tr>
+                    <tr>
                         <td>Concepto</td>
                         <td>{{ $cuota->concepto }}</td>
                     </tr>
@@ -73,11 +77,11 @@
                     </tr>
                     <tr>
                         <td>Importe</td>
-                        <td>{{ $cuota->importe ?? $cuota->cliente->importe_mensual }} uds.</td>
+                        <td>{{ $cuota->importe }} {{ $cuota->moneda }}</td>
                     </tr>
                     <tr>
-                        <td>NOta</td>
-                        <td>{{ $cuota->notas }} uds.</td>
+                        <td>Importe €<br>(Puede Cambiar)</td>
+                        <td>{{ $importe_euro }} €</td>
                     </tr>
                 </tbody>
             </table>

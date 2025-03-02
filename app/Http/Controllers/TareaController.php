@@ -167,15 +167,20 @@ class TareaController extends Controller
 
     public function complete(Tarea $tarea)
     {
-        $operarios = User::getOperarios();
-        $clientes = Cliente::all();
-        $provincias = Provincia::all();
-        return view('tarea.edit', [
+        $user = Auth::user();
+        if ($tarea->operario_id === $user->id) {
+            $operarios = User::getOperarios();
+            $clientes = Cliente::all();
+            $provincias = Provincia::all();
+            return view('tarea.edit', [
             'tarea' => $tarea,
             'operarios' => $operarios,
             'clientes' => $clientes,
             'provincias' => $provincias
-        ]);
+            ]);
+        } else {
+            return to_route('tarea.index');
+        }
     }
 
     public function completeUpdate(UpdateCompleteRequest $request, Tarea $tarea)

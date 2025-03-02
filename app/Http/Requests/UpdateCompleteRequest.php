@@ -25,12 +25,12 @@ class UpdateCompleteRequest extends FormRequest
         // Mantener los ficheros al fallar la validación
         // Arreglar segunda validación de fecha
         return [
-            'fecha_realizacion' => ['nullable', 'date', new ValidFechaRealizacion($this->estado)],
+            'fecha_realizacion' => ['required', 'date', new ValidFechaRealizacion($this->estado)],
             'estado' => 'required|in:B,P,R,C',
             'anotaciones_anteriores' => 'nullable|string',
             'anotaciones_posteriores' => 'nullable|string',
-            'fichero' => 'nullable|file|mimes:pdf|max:2048',
-            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
+            'fichero' => 'required|file|mimes:pdf|max:2048',
+            'foto' => 'required|file|mimes:jpg,jpeg,png|max:2048'
         ];
     }
 }

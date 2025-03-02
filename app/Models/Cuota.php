@@ -13,12 +13,12 @@ class Cuota extends Model
 
     public function cliente(): BelongsTo
     {
-        return $this->belongsTo(Cliente::class, 'cliente_id', 'id');
+        return $this->belongsTo(Cliente::class, 'cliente_id', 'id')->withTrashed();
     }
 
     public function remesa(): BelongsTo
     {
-        return $this->belongsTo(Remesa::class, 'remesa_id', 'id');
+        return $this->belongsTo(Remesa::class, 'remesa_id', 'id')->withTrashed();
     }
 
     public static function getCuotasGroupedByCliente()

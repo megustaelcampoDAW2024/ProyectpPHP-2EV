@@ -16,7 +16,7 @@
             <select class="form-control" name="cliente_id" id="cliente_id">
                 <option value="" hidden>Selecciona un cliente</option>
                 @foreach($clientes as $cliente)
-                    <option value="{{ $cliente->id }}" {{ old('cliente_id') == $cliente->id ? 'selected' : '' }}>{{ $cliente->nombre }}</option>
+                    <option value="{{ $cliente->id }}" data-moneda="{{ $cliente->moneda }}" {{ old('cliente_id') == $cliente->id ? 'selected' : '' }}>{{ $cliente->nombre }}</option>
                 @endforeach
             </select>
         </div>
@@ -30,19 +30,12 @@
             <select class="form-control" name="remesa_id" id="remesa_id">
                 <option value="">Ninguna</option>
                 @foreach($remesas as $remesa)
-                    <option value="{{ $remesa->id }}" {{ old('remesa_id') == $remesa->id ? 'selected' : '' }}>{{ $remesa->mes }}/{{ $remesa->ano }}</option>
+                    <option value="{{ $remesa->id }}" {{ old('remesa_id') == $remesa->id ? 'selected' : '' }}>{{ $remesa->descripcion }}</option>
                 @endforeach
             </select>
         </div>
 
-        <div class="form-group" id="importe-form">
-            @error('importe')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @else
-                <label for="importe">Importe</label>
-            @enderror
-            <input type="number" step="0.01" class="form-control" name="importe" id="importe" value="{{ old('importe') }}">
-        </div>
+        <div class="form-group" id="importe-form"></div>
         
         <div class="form-group" id="emision-form">
             @error('fecha_emision')
@@ -66,7 +59,7 @@
             @error('notas')
                 <div class="alert alert-danger">{{ $message }}</div>
             @else
-                <label for="notas">notas</label>
+                <label for="notas">Notas</label>
             @enderror
             <input type="text" class="form-control" name="notas" id="notas" value="{{ old('notas') }}">
         </div>
@@ -87,7 +80,12 @@
                         @else
                             <label for="importe">Importe</label>
                         @enderror
-                        <input type="number" step="0.01" class="form-control" name="importe" id="importe" value="{{ old('importe') }}">
+                        <div class="input-group">
+                            <input type="number" step="0.01" class="form-control" name="importe" id="importe" value="{{ old('importe') }}">
+                            <div class="input-group-append">
+                                <div class="input-group-text" id="moneda-text">Moneda</div>
+                            </div>
+                        </div>
                     </div>
                 `);
                 $('#emision-form').html('');
@@ -117,10 +115,21 @@
             }
         }
 
+        function updateCurrency() {
+            var selectedClient = $('#cliente_id').find(':selected');
+            var currency = selectedClient.data('moneda');
+            $('#moneda-text').text(currency);
+        }
+
         toggleFields();
+        updateCurrency();
 
         $('#remesa_id').change(function() {
             toggleFields();
+        });
+
+        $('#cliente_id').change(function() {
+            updateCurrency();
         });
     });
 </script>

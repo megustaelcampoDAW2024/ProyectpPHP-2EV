@@ -65,9 +65,13 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('user.edit', [
+        if (Auth::user()->rol == 'A' || (Auth::user()->rol == 'O' && Auth::id() == $user->id)) {
+            return view('user.edit', [
             'user' => $user
-        ]);
+            ]);
+        } else {
+            return to_route('user.edit', Auth::id());
+        }
     }
 
     /**

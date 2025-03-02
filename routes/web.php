@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/cuota/update/{cuota}', [CuotaController::class, 'update'])->name('cuota.update');
     Route::delete('/cuota/destroy/{cuota}', [CuotaController::class, 'destroy'])->name('cuota.destroy');
     Route::get('/cuota/print/{cuota}', [CuotaController::class, 'print'])->name('cuota.print');
+    Route::get('/cuota/paid/{cuota}', [CuotaController::class, 'paid'])->name('cuota.paid');
+    Route::post('/cuota/sendMail/{cuota}', [CuotaController::class, 'sendMail'])->name('cuota.sendMail');
 });
 
 //RemesaController
@@ -71,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/remesa/index', [RemesaController::class, 'index'])->name('remesa.index');
     Route::get('/remesa/create', [RemesaController::class, 'create'])->name('remesa.create');
     Route::post('/remesa/store', [RemesaController::class, 'store'])->name('remesa.store');
+    Route::get('/remesa/sendAllCuotas/{remesa}', [RemesaController::class, 'sendAllCuotas'])->name('remesa.send');
     Route::get('/remesa/show/{remesa}', [RemesaController::class, 'show'])->name('remesa.show');
     Route::get('/remesa/edit/{remesa}', [RemesaController::class, 'edit'])->name('remesa.edit');
     Route::put('/remesa/update/{remesa}', [RemesaController::class, 'update'])->name('remesa.update');
