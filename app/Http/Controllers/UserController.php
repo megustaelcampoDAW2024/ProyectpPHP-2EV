@@ -49,7 +49,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return to_route('user.index');
+        return to_route('user.index')->with('status', 'Usuario creado correctamente');
     }
 
     /**
@@ -70,7 +70,7 @@ class UserController extends Controller
             'user' => $user
             ]);
         } else {
-            return to_route('user.edit', Auth::id());
+            return to_route('user.edit', Auth::id())->with('status', 'No tienes permisos para editar este usuario');
         }
     }
 
@@ -88,7 +88,7 @@ class UserController extends Controller
                 $user->save();
             }
         }
-        return to_route('user.index');
+        return to_route('user.index')->with('status', 'Usuario actualizado correctamente');
     }
 
     /**
@@ -97,6 +97,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return to_route('user.index');
+        return to_route('user.index')->with('status', 'Usuario eliminado correctamente');
     }
 }

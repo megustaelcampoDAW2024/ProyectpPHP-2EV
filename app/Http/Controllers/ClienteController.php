@@ -44,8 +44,7 @@ class ClienteController extends Controller
     {
         $cliente = new Cliente($request->validated());
         $cliente->save();
-        return to_route('cliente.show', ['cliente' => $cliente->id]);
-        //hola
+        return to_route('cliente.show', ['cliente' => $cliente->id])->with('success', 'Cliente creado correctamente');
     }
 
     /**
@@ -75,7 +74,7 @@ class ClienteController extends Controller
     {
         $cliente->fill($request->validated());
         $cliente->save();
-        return to_route('cliente.show', ['cliente' => $cliente->id]);
+        return to_route('cliente.show', ['cliente' => $cliente->id])->with('success', 'Cliente actualizado correctamente');
     }
 
     /**
@@ -84,6 +83,6 @@ class ClienteController extends Controller
     public function destroy(Cliente $cliente)
     {
         $cliente->delete();
-        return to_route('cliente.index');
+        return to_route('cliente.index')->with('success', 'Cliente eliminado correctamente');
     }
 }

@@ -42,7 +42,7 @@ class RemesaController extends Controller
         if ($request->has('crear_y_enviar')) {
             $this->sendAllCuotas($remesa);
         }
-        return to_route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Remesa creada correctamente');
     }
 
     /**
@@ -76,7 +76,7 @@ class RemesaController extends Controller
         // Enviar correo con la factura
         Mail::to($cliente->correo)->send(new CuotaFacturaMailable($cuota));
     }
-    return to_route('cuota.index');
+    return to_route('cuota.index')->with('status', 'Cuotas e E-Mails enviados correctamente');
 }
 
     /**
@@ -96,7 +96,7 @@ class RemesaController extends Controller
         if ($request->has('editar_y_enviar')) {
             $this->sendAllCuotas($remesa);
         }
-        return to_route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Remesa actualizada correctamente');
     }
 
     /**
@@ -105,6 +105,6 @@ class RemesaController extends Controller
     public function destroy(Remesa $remesa)
     {
         $remesa->delete();
-        return to_route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Remesa eliminada correctamente');
     }
 }

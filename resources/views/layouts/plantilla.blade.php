@@ -13,6 +13,15 @@
             html, body {
                 overflow: auto;
             }
+            .alert {
+                display: none;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            }
+            .alert.show {
+                display: block;
+                opacity: 1;
+            }
         </style>
     </head>
     <body>
@@ -52,11 +61,41 @@
                 @endif
             </div>
         </nav>
-        <div class="container-fluid my-5 pt-4 pb-5">
+        {{-- Alertas --}}
+        <div id="alert-container" class="w-100 px-3 my-0" style="padding-top: 70px; display: none;"></div>
+        {{-- Plantilla --}}
+        <div class="container-fluid my-5 pt-4 pb-5" id="content">
             @yield('seccion')
         </div>
         <footer class="bg-light text-center p-3 fixed-bottom">
             <p class="m-2">Derechos reservados por megustaelcampo. Registrado &copy; {{ date('Y') }}</p>
         </footer>
+        {{-- Script Alertas --}}
+        <script>
+            $(document).ready(function() {
+                @if(session('status'))
+                    showAlert('{{ session('status') }}');
+                @endif
+            });
+    
+            function showAlert(message) {
+                const alertContainer = $('#alert-container');
+
+                $('#alert-container').css('display', 'block');
+                $('#content').removeClass('my-5').addClass('mb-5');
+
+                const alert = $('<div class="alert alert-success alert-dismissible fade show mb-0" role="alert"></div>');
+                alert.text(message);
+                alert.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+                alertContainer.append(alert);
+                alert.addClass('show');
+                setTimeout(() => {
+                    alert.removeClass('show');
+                    setTimeout(() => alert.remove(), 5000);
+                    $('#alert-container').css('display', 'none');
+                    $('#content').removeClass('mb-5').addClass('my-5');
+                }, 3000);
+            }
+        </script>
     </body>
 </html>

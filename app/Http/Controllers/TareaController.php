@@ -89,7 +89,7 @@ class TareaController extends Controller
         // Guarda la tarea nuevamente con las rutas de los archivos
         $tarea->save();
     
-        return to_route('tarea.index');
+        return to_route('tarea.index')->with('status', 'Tarea creada correctamente');
     }
 
     public function storeRequest(StoreRequest $request)
@@ -102,7 +102,6 @@ class TareaController extends Controller
               ->where('telefono', $request->telefono)
               ->first();
         $tarea['cliente_id'] = $cliente->id;
-        // dd($tarea);
         $tarea->save();
 
         return redirect('/');
@@ -161,7 +160,7 @@ class TareaController extends Controller
 
         $tarea->update($tareaValidada);
         
-        return to_route('tarea.show', ['tarea' => $tarea]);
+        return to_route('tarea.show', ['tarea' => $tarea])->with('status', 'Tarea actualizada correctamente');
         // return "Estado: '" . $tarea->estado . "'" . "Fecha de realización: '" . $tarea->fecha_realizacion . "'";
     }
 
@@ -179,7 +178,7 @@ class TareaController extends Controller
             'provincias' => $provincias
             ]);
         } else {
-            return to_route('tarea.index');
+            return to_route('tarea.index')->with('status', 'No puedes completar una tarea que no te ha sido asignada');
         }
     }
 
@@ -208,7 +207,7 @@ class TareaController extends Controller
 
         $tarea->update($tareaValidada);
         
-        return to_route('tarea.index');
+        return to_route('tarea.index')->with('status', 'Tarea completada correctamente');
     }
 
     /**
@@ -217,6 +216,6 @@ class TareaController extends Controller
     public function destroy(Tarea $tarea)
     {
         $tarea->delete();
-        return to_route('tarea.index');
+        return to_route('tarea.index')->with('status', 'Tarea eliminada correctamente');
     }
 }

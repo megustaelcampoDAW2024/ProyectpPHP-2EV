@@ -63,7 +63,7 @@ class CuotaController extends Controller
         $cuota = new Cuota($cuotaValidada);
         $cuota->save();
 
-        return to_route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Cuota creada correctamente');
     }
 
     /**
@@ -102,7 +102,7 @@ class CuotaController extends Controller
 
         $cuota->update($cuotaValidada);
 
-        return redirect()->route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Cuota actualizada correctamente');
     }
 
     /**
@@ -111,7 +111,7 @@ class CuotaController extends Controller
     public function destroy(Cuota $cuota)
     {
         $cuota->delete();
-        return redirect()->route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Cuota eliminada correctamente');
     }
 
     public function print(Cuota $cuota)
@@ -135,13 +135,13 @@ class CuotaController extends Controller
                 'importe_euro' => $cuota->importe * $exchangeRate,
             ]);
         }
-        return redirect()->route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Cuota marcada como pagada');
     }
 
     public function sendMail(Cuota $cuota)
     {
         Mail::to($cuota->cliente->correo)->send(new CuotaFacturaMailable($cuota));
-        return redirect()->route('cuota.index');
+        return to_route('cuota.index')->with('status', 'Correo enviado correctamente');
     }
     
 }
