@@ -18,6 +18,10 @@
                 opacity: 0;
                 transition: opacity 0.5s ease-in-out;
             }
+            .alert-danger {
+                display: block;
+                opacity: 1;
+            }
             .alert.show {
                 display: block;
                 opacity: 1;

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidPhoneNumber;
 use App\Rules\validCodigoPostal;
-use App\Rules\ValidFechaRealizacion;
+use App\Rules\validFechaRealizacion;
 
 class StoreTareaRequest extends FormRequest
 {
@@ -40,7 +40,7 @@ class StoreTareaRequest extends FormRequest
             'cod_postal' => ['nullable', 'numeric', 'digits:5', new validCodigoPostal($this->provincia_id)],
             'provincia_id' => 'nullable|exists:tbl_provincias,id',
             'operario_id' => 'nullable|exists:users,id',
-            'fecha_realizacion' => ['nullable', 'date', new ValidFechaRealizacion($this->estado)],
+            'fecha_realizacion' => ['nullable', 'date', new validFechaRealizacion($this->estado)],
             'estado' => 'required|in:B,P,R,C',
             'anotaciones_anteriores' => 'nullable|string',
             'anotaciones_posteriores' => 'nullable|string',

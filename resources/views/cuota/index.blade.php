@@ -18,9 +18,9 @@
                         <thead>
                             <tr>
                                 <td style="width: 20%; border-top: none;">
-                                    <button class="btn btn-primary">
+                                    <a class="btn btn-primary" href="{{ route('cliente.show', $clienteId) }}">
                                         Cliente {{ $clienteId }}
-                                    </button>
+                                    </a>
                                 </td>
                                 <td style="width: 20%; vertical-align: middle; border-top: none;">Nombre: {{ collect($cuotas)->first()->cliente->nombre }}</td>
                                 <td style="width: 20%; vertical-align: middle; border-top: none;">Teléfono: {{ collect($cuotas)->first()->cliente->telefono }}</td>
@@ -117,6 +117,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </td>
                                     </tr>
                                 @endforeach
