@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cif' => ['required', 'string', 'max:9', new validCifNieDni],
+            'cif' => ['required', 'string', 'max:9', new validCifNieDni,  new ValidCifTelefono],
             'telefono' => ['required', 'string', 'max:50', new ValidPhoneNumber, new ValidCifTelefono],
             'nombre_contacto' => 'required|string|max:255',
             'apellido_contacto' => 'required|string|max:255',

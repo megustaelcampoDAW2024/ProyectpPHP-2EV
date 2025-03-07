@@ -27,11 +27,22 @@ class CuotaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $groupedCuotas = Cuota::getCuotasGroupedByCliente();
-        $remesas = Remesa::paginate(10);
-        return view('cuota.index', compact('groupedCuotas', 'remesas'));
+        $search = $request->input('search');
+        
+        $clientes = Cliente::with('cuotas')
+            ->when($search, function ($query, $search) {
+                return $query->where('nombre', 'like', "%{$search}%")
+                            ->orWhere('telefono', 'like', "%{$search}%")
+                            ->orWhere('cif', 'like', "%{$search}%")
+                            ->orWhere('correo', 'like', "%{$search}%");
+            })
+            ->paginate(3, ['*'], 'clientes_page');
+        
+        $remesas = Remesa::paginate(10, ['*'], 'remesas_page');
+
+        return view('cuota.index', compact('clientes', 'remesas'));
     }
 
     /**

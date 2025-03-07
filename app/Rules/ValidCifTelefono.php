@@ -18,6 +18,7 @@ class ValidCifTelefono implements Rule
     {
         $cif = request()->input('cif');
         $telefono = request()->input('telefono');
+        $telefono = str_replace([' ', '-'], '', $telefono);
 
         return Cliente::where('cif', $cif)->where('telefono', $telefono)->exists();
     }
